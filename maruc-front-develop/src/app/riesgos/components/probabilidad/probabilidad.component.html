@@ -1,0 +1,178 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Probabilidad del riesgo</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner [type]="'bg'" *ngIf="loading; else pageLoaded"></app-spinner>
+    <ng-template #pageLoaded>
+      <form *ngIf="!lock_info" [formGroup]="form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="actividad">Actividad</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': submitted && f['actividad'].errors
+                }"
+                class="form-select"
+                formControlName="actividad"
+                id="actividad"
+                name="actividad"
+              >
+                <option value="">Seleccione una actividad</option>
+                <option
+                  *ngFor="let act of catalogoActividades"
+                  [value]="act.id"
+                >
+                  {{ act.nombre }}
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f['actividad'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['actividad'].hasError('required')">
+                  Debe seleccionar una actividad
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="frecuencia">Frecuencia</label>
+              <select
+                [ngClass]="{
+                  'is-invalid': submitted && f['frecuencia'].errors
+                }"
+                class="form-select"
+                formControlName="frecuencia"
+                id="frecuencia"
+              >
+                <option value="">Seleccione una frecuencia</option>
+                <option *ngFor="let frec of frecuencias" [value]="frec.value">
+                  {{ frec.nombre }}
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f['frecuencia'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['frecuencia'].hasError('required')">
+                  Debe seleccionar una frecuencia
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button (click)="onCancel()" class="btn btn-dark m-1">
+              Cancelar
+            </button>
+            <button (click)="onAddActivity()" class="btn btn-primary">
+              Agregar actividad
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <h5 class="card-title subtitle mt-4">Lista actividades</h5>
+
+      <table class="table table-sm" *ngIf="actividades.length != 0">
+        <thead>
+          <tr>
+            <th>Nombre actividad</th>
+            <th>Frecuencia invertida</th>
+            <th>Frecuencia</th>
+            <th *ngIf="!lock_info">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loadingData$ | async; else loaded">
+            <td colspan="4" class="text-center">
+              <app-spinner [type]="'bg'"></app-spinner>
+            </td>
+          </tr>
+          <ng-template #loaded>
+            <tr *ngFor="let act of actividades">
+              <td>{{ act.nombreActividad }}</td>
+              <td>{{ act.frecuenciaInvertida ? "Si" : "No" }}</td>
+              <td>{{ act.frecuencia }}</td>
+              <td *ngIf="!lock_info">
+                <button
+                  (click)="onDelete(act.id)"
+                  class="btn btn-danger rounded-circle"
+                >
+                  <i class="fas fa-sm fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="actividades.length === 0">
+              <td class="d-flex justify-content-center" colspan="4">
+                No hay actividades registradas para el riesgo
+              </td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+      <div *ngIf="actividades.length == 0" class="alert alert-info">
+        Aun no has agregado actividades
+      </div>
+
+      <h5 class="card-title subtitle mt-4">Probabilidad</h5>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label" for="por-ocurrencia"
+              >Probabilidad total</label
+            >
+            <input
+              [value]="porOcurrencia"
+              class="form-control"
+              disabled
+              id="por-ocurrencia"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label" for="pro-ocurrencia"
+              >Probabilidad de ocurrencia</label
+            >
+            <input
+              [value]="proOcurrencia"
+              class="form-control"
+              disabled
+              id="pro-ocurrencia"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label" for="niv-probabilidad"
+              >Nivel de probabilidad</label
+            >
+            <input
+              [value]="nivProbabilidad"
+              class="form-control"
+              disabled
+              id="niv-probabilidad"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!lock_info" class="d-flex justify-content-end mt-4">
+        <button (click)="onNext()" class="btn btn-primary m-1" type="button">
+          Siguiente
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

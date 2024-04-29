@@ -1,0 +1,249 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Información básica del riesgo</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+    <ng-template #loaded>
+      <form [formGroup]="formulario">
+        <div class="row">
+          <!-- Tipo de riesgo -->
+          <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="tipo-riesgo" class="form-label">Tipo de riesgo</label>
+              <select
+                id="tipo-riesgo"
+                class="form-select"
+                formControlName="idTipoRiesgo"
+                [ngClass]="{
+                  'is-invalid': submitted && f['idTipoRiesgo'].errors
+                }"
+              >
+                <option value="">Seleccione un tipo de riesgo</option>
+                <option
+                  *ngFor="let tipoRiesgo of tiposRiesgo"
+                  [ngValue]="tipoRiesgo.id"
+                >
+                  {{ tipoRiesgo.nombre }}
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f['idTipoRiesgo'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['idTipoRiesgo'].errors['required']">
+                  Debe seleccionar el tipo de riesgo.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm 12">
+            <div class="form-group">
+              <label for="proceso" class="form-label">Proceso</label>
+              <select
+                name="proceso"
+                id="proceso"
+                class="form-select"
+                formControlName="idProceso"
+                [ngClass]="{
+                  'is-invalid': submitted && f['idProceso'].errors
+                }"
+              >
+                <option value="">Seleccione un proceso</option>
+                <option [ngValue]="proceso.id" *ngFor="let proceso of procesos">
+                  {{ proceso.descripcion }}
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f['idProceso'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['idProceso'].errors['required']">
+                  Debe seleccionar un proceso.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <!-- Nombre del riesgo -->
+          <div class="col-sm-12">
+            <label for="nombre-riesgo" class="form-label">Riesgo</label>
+            <textarea
+              id="nombre-riesgo"
+              class="form-control"
+              formControlName="nombre"
+              cols="30"
+              appCharacterCount
+              maxlength="200"
+              rows="5"
+              [ngClass]="{
+                'is-invalid': submitted && f['nombre'].errors
+              }"
+            ></textarea>
+            <div
+              *ngIf="submitted && f['nombre'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['nombre'].errors['required']">
+                Debe ingresar el riesgo.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="objetivo" class="form-label"
+                >Objetivo del proceso, subproceso o dependencia</label
+              >
+              <textarea
+                class="form-control"
+                id="objetivo"
+                formControlName="objetivo"
+                cols="30"
+                appCharacterCount
+                maxlength="100"
+                rows="5"
+                [ngClass]="{
+                  'is-invalid': submitted && f['objetivo'].errors
+                }"
+              ></textarea>
+              <div
+                *ngIf="submitted && f['objetivo'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['objetivo'].errors['required']">
+                  Debe ingresar el objetivo del proceso, subproceso o
+                  dependencia
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-6">
+            <div class="form-group">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="relacionConObjetivo"
+                  id="relacion-con-objetivo"
+                />
+                <label class="form-check-label" for="relacion-con-objetivo">
+                  Relacionado con el objetivo
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="esRiesgoDeCorrupcion">
+          <div class="row mt-4">
+            <div class="col">
+              <div class="form-group">
+                <label for="motivacion" class="form-label">Motivación</label>
+                <textarea
+                  class="form-control"
+                  id="motivacion"
+                  formControlName="motivacion"
+                  cols="30"
+                  rows="5"
+                  appCharacterCount
+                  maxlength="100"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['motivacion']?.errors
+                  }"
+                ></textarea>
+                <div
+                  *ngIf="submitted && f['motivacion']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['motivacion'].errors['required']">
+                    Debe ingresar la motivación.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <div class="form-group">
+                <label for="responsabilidad" class="form-label"
+                  >Responsabilidad</label
+                >
+                <textarea
+                  class="form-control"
+                  id="responsabilidad"
+                  formControlName="responsabilidad"
+                  cols="30"
+                  appCharacterCount
+                  maxlength="100"
+                  rows="5"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['responsabilidad']?.errors
+                  }"
+                ></textarea>
+                <div
+                  *ngIf="submitted && f['responsabilidad']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['motivacion'].errors['required']">
+                    Debe ingresar la responsabilidad.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <div class="form-group">
+                <label for="oportunidad" class="form-label">Oportunidad</label>
+                <textarea
+                  class="form-control"
+                  id="oportunidad"
+                  formControlName="oportunidad"
+                  cols="30"
+                  appCharacterCount
+                  maxlength="100"
+                  rows="5"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['oportunidad']?.errors
+                  }"
+                ></textarea>
+                <div
+                  *ngIf="submitted && f['oportunidad']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['oportunidad'].errors['required']">
+                    Debe ingresar la oportunidad.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="!lock_info" class="d-flex justify-content-end mt-4">
+          <button class="btn btn-dark m-1" (click)="onCancel()">
+            Cancelar
+          </button>
+          <button
+            class="btn btn-primary m-1"
+            type="button"
+            (click)="onSubmit()"
+          >
+            Siguiente
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div>

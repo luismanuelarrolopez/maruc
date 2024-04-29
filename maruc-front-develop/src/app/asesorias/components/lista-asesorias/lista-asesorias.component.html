@@ -1,0 +1,78 @@
+<ng-template let-modal #modalAgendarAsesoria>
+  <app-formulario-agendar-asesoria
+    (onClose)="modal.dismiss()"
+  ></app-formulario-agendar-asesoria>
+</ng-template>
+<table class="table table-sm table-responsive">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Fecha solicitud</th>
+      <th scope="col">Solicitante</th>
+      <th scope="col">Fecha agenda</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="loading; else loaded">
+      <td colspan="5">
+        <app-spinner [type]="'bg'"></app-spinner>
+      </td>
+    </tr>
+    <ng-template #loaded>
+      <tr *ngIf="totalElements === 0">
+        <td colspan="5">
+          <app-sin-datos></app-sin-datos>
+        </td>
+      </tr>
+      <tr *ngFor="let asesoria of asesorias; let i = index">
+        <td scope="row">
+          {{ i + 1 }}
+        </td>
+        <td scope="row">
+          {{ asesoria?.fechaSolicitud | date }}
+        </td>
+        <td scope="row">
+          {{ asesoria?.solicitante.nombres }}
+          {{ asesoria.solicitante.apellidos }}
+        </td>
+        <td scope="row" *ngIf="asesoria.fechaAgendada">
+          {{ asesoria.fechaAgendada | date }}
+        </td>
+        <td scope="row" *ngIf="!asesoria.fechaAgendada">
+          No se ha agendado una fecha.
+        </td>
+        <td scope="row">
+          <button
+            class="btn btn-primary rounded-circle"
+            (click)="
+              abrirModalAgendarAsesoria(modalAgendarAsesoria, asesoria.id)
+            "
+          >
+            <i class="fas fa-calendar"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>
+<div class="d-flex justify-content-between p-2 align-items-center">
+  <ngb-pagination
+    [collectionSize]="totalElements"
+    [(page)]="page"
+    [pageSize]="size"
+    (pageChange)="fetchAsesorias()"
+  >
+  </ngb-pagination>
+
+  <select
+    class="form-select"
+    style="width: auto"
+    [(ngModel)]="size"
+    (ngModelChange)="fetchAsesorias()"
+  >
+    <option [ngValue]="5">5</option>
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="20">20</option>
+  </select>
+</div>

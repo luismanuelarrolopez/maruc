@@ -1,0 +1,229 @@
+<div class="modal-header">
+  <h4 class="modal-title">Usuarios</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="onCerrarDialogo()"
+  ></button>
+</div>
+<div class="modal-body">
+  <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+  <ng-template #loaded>
+    <form [formGroup]="formularioConsecuencia" #frm (submit)="onSubmit()">
+      <div class="row">
+        <div class="col">
+          <label class="form-label">Afectación</label
+          ><select
+          class="form-select"
+          formControlName="tipoAfectacion"
+          [ngClass]="{ 'is-invalid': submitted && f['tipoAfectacion'].errors }"
+        >
+          <option value="" selected>Seleccionar afectacion</option>
+          <option
+            *ngFor="let tipoAfectacion of tiposAfectacion"
+            [ngValue]="tipoAfectacion.id"
+          >
+            {{ tipoAfectacion.nombre }}
+          </option>
+        </select>
+          <div
+            *ngIf="submitted && f['tipoAfectacion'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['tipoAfectacion'].errors['required']">
+              Debe seleccionar el tipo de campo.
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <label class="form-label">Tipo de campo</label
+            ><select
+            (change)="onCambioTipoCampo()"
+            class="form-select"
+            formControlName="tipoCampo"
+            [ngClass]="{ 'is-invalid': submitted && f['tipoCampo'].errors }"
+          >
+            <option value="" selected>Seleccionar Tipo Campo</option>
+            <option value="texto">Texto</option>
+            ""
+            <option value="seleccion" selected>Selección</option>
+          </select>
+            <div
+              *ngIf="submitted && f['tipoCampo'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['tipoCampo'].errors['required']">
+                Debe seleccionar el tipo de campo.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <label class="form-label">Consecuencia</label
+          ><input
+          class="form-control"
+          type="text"
+          formControlName="consecuencia"
+          [ngClass]="{ 'is-invalid': submitted && f['consecuencia'].errors }"
+        />
+          <div
+            *ngIf="submitted && f['consecuencia'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['consecuencia'].errors['required']">
+              Debe ingresar la consecuencia.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3" *ngIf="!showListaOpciones()">
+        <div class="col">
+          <label class="form-label">Puntaje</label
+          ><input
+          class="form-control"
+          type="text"
+          formControlName="puntaje"
+          [ngClass]="{ 'is-invalid': submitted && f['puntaje'].errors }"
+        />
+          <div *ngIf="submitted && f['puntaje'].errors" class="invalid-feedback">
+            <div *ngIf="f['puntaje'].errors['required']">
+              Debe ingresar el puntaje.
+            </div>
+            <div *ngIf="f['puntaje'].errors['pattern']">
+              El puntaje debe ser un número entero positivo.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3" *ngIf="showListaOpciones()">
+        <h5 class="subtitle">Opciones consecuencia</h5>
+        <ng-container *ngFor="let item of listaOpciones; let i = index">
+          <div class="row" [formGroup]="item">
+            <input type="hidden" formControlName="id"/>
+            <div class="form-group col-sm">
+              <label for="option-{{ i }}"> Opción </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="descripcion"
+              />
+            </div>
+            <div class="form-group col-sm">
+              <label for="score-{{ i }}">Puntaje</label>
+              <input
+                id="score-{{ i }}"
+                class="form-control"
+                formControlName="puntaje"
+              />
+            </div>
+            <button
+              class="btn btn-secundary col-sm-1 m-0"
+              style="padding-top: 24px"
+              (click)="onBorrarOpcion(i)"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </ng-container>
+        <div class="d-flex align-items-center justify-content-center">
+          <button
+            (click)="onAgregarOpcion()"
+            type="button"
+            [disabled]="disabled"
+            style="width: 50px"
+            class="btn btn-secundary mt-2"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      <!-- <div class="row mt-3" *ngIf="showListaOpciones()">
+        <ng-container formArrayName="opciones"> -->
+      <!-- Formulario de opciones dinámico -->
+      <!-- <ng-container *ngFor="let option of opciones.controls; let i = index">
+            <div class="row" [formGroup]="obtenerFormGroup(i)">
+              <div class="form-group col-sm">
+                <label for="opcion-{{ i }}">Opción</label>
+                <input
+                  id="opcion-{{ i }}"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && option.get('descripcion')?.errors
+                  }"
+                  formControlName="descripcion"
+                />
+                <div
+                  *ngIf="submitted && option.get('descripcion')?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="option.get('descripcion')?.hasError('required')">
+                    Debe ingresar un valor para la opción.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm">
+                <label for="puntaje-{{ i }}">Puntaje</label>
+                <input
+                  id="puntaje-{{ i }}"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && option.get('puntaje')?.errors
+                  }"
+                  formControlName="puntaje"
+                />
+                <div
+                  *ngIf="submitted && option.get('puntaje')?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="option.get('puntaje')?.hasError('required')">
+                    Debe ingresar un valor para el puntaje.
+                  </div>
+                  <div *ngIf="option.get('puntaje')?.hasError('pattern')">
+                    Debe ingresar un número entero positivo.
+                  </div>
+                </div>
+              </div>
+              <button
+                class="btn btn-secundary col-sm-1 m-0"
+                style="padding-top: 24px"
+                (click)="onBorrarOpcion(i)"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </ng-container>
+        </ng-container> -->
+      <!-- Fin formularion de opciones-->
+      <!-- </div>
+      <div class="row" style="margin-top: 12px">
+        <div class="col">
+          <div class="input-group"></div>
+        </div>
+      </div> -->
+
+      <!--
+    <div class="mt-3 d-flex align-items-end flex-column">
+      <button class="btn btn-primary" [disabled]="disabled" type="submit">
+        <i class="fas fa-save"></i> Guardar
+      </button>
+    </div>
+  -->
+    </form>
+  </ng-template>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="onCerrarDialogo()"
+    >
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">
+      Guardar
+    </button>
+  </div>
+</div>

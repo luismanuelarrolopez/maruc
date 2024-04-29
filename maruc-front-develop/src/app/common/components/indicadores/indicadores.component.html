@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary mb-0">Indicadores</h3>
+            <button *ngIf="generales?.length > 0" class="btn btn-primary btn-sm d-none d-sm-inline-block" (click)="crearImagen()">	
+                Descargar
+                <fa-icon [icon]="downloadIcon"></fa-icon>
+            </button>
+    </div>
+    <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+    <ng-template #loaded>
+        <div id="contenido">
+            <div class="row">
+                <div class="col"><label class="col-form-label">Generales</label>
+                    <div *ngIf="generales.length > 0; else notGeneral">
+                        <div class="col-lg-6 mb-4" *ngFor="let general of generales">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-primary fw-bold m-0">{{general.first + " / " + general.second}}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small fw-bold">{{general.first}}<span
+                                            class="float-end">{{general.first_value}}</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" style="width: 100%;"><span
+                                                class="visually-hidden"></span></div>
+                                    </div>
+                                    <h4 class="small fw-bold">{{general.second}}<span
+                                            class="float-end">{{general.second_value}}</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" [ngStyle]="{'width.%': general.value}"><span
+                                                class="visually-hidden">{{general.second_value}}%</span></div>
+                                    </div>
+                                    <h4 class="small fw-bold">{{general.message}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #notGeneral>
+                        <div class="alert alert-primary" role="alert">
+                            No existen registros para calcular indicador
+                          </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" style="text-align: center;"><label class="col-form-label">Procesos</label>
+                    <div *ngIf="procesos.length > 0; else notProcesos">
+                        <div class="card shadow mb-4" *ngFor="let proceso of procesos">
+                            <div class="card-header py-3">
+                                <h6 class="text-primary fw-bold m-0">{{proceso.name}}<br /></h6>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="small fw-bold">{{proceso.first}}<span class="float-end">{{proceso.first_value}}</span>
+                                </h4>
+                                <div class="progress mb-4">
+                                    <div class="progress-bar bg-danger" style="width: 100%;"><span class="visually-hidden"></span>
+                                    </div>
+                                </div>
+                                <h4 class="small fw-bold">{{proceso.second}}<span class="float-end">{{proceso.second_value}}</span>
+                                </h4>
+                                <div class="progress mb-4">
+                                    <div class="progress-bar bg-warning" [ngStyle]="{'width.%': proceso.value}"><span
+                                        class="visually-hidden">{{proceso.second_value}}%</span></div>
+                                </div>
+                                <h4 class="small fw-bold">{{proceso.message}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #notProcesos>
+                        <div class="alert alert-primary" role="alert">
+                            No existen registros para calcular indicador
+                          </div>
+                    </ng-template>
+                </div>
+                <div class="col" style="text-align: center;"><label class="col-form-label">Dependencias</label>
+                    <div *ngIf="dependencias.length > 0; else notDependencias">
+                        <div class="card shadow mb-4" *ngFor="let dependencia of dependencias">
+                            <div class="card-header py-3">
+                                <h6 class="text-primary fw-bold m-0">{{dependencia.name}}<br /></h6>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="small fw-bold">{{dependencia.first}}<span
+                                        class="float-end">{{dependencia.first_value}}</span></h4>
+                                <div class="progress mb-4">
+                                    <div class="progress-bar bg-danger" style="width: 100%;"><span class="visually-hidden"></span>
+                                    </div>
+                                </div>
+                                <h4 class="small fw-bold">{{dependencia.second}}<span
+                                        class="float-end">{{dependencia.second_value}}</span></h4>
+                                <div class="progress mb-4">
+                                    <div class="progress-bar bg-warning" [ngStyle]="{'width.%': dependencia.value}"><span
+                                        class="visually-hidden">{{dependencia.second_value}}%</span></div>
+                                </div>
+                                <h4 class="small fw-bold">{{dependencia.message}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #notDependencias>
+                        <div class="alert alert-primary" role="alert">
+                            No existen registros para calcular indicador
+                          </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

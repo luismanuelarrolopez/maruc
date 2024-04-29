@@ -1,0 +1,6 @@
+export interface Dependencia {
+    id?: number;
+    nombre?: string;
+    codigo?: string;
+    descripcion?: string;
+}

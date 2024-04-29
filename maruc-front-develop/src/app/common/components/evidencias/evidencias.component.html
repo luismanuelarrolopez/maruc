@@ -1,0 +1,173 @@
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary mb-0">Soportes de la evidencia</h3>
+    </div>
+    <div class="row">
+        <div class="col">
+            <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+            <ng-template #loaded>
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <p class="m-0 fw-bold">Riesgo: {{evidencia?.riesgo}}<br></p>
+                        <p class="m-0 fw-bold">Control: {{evidencia?.control}}<br></p>
+                        <div class="d-flex flex-row align-items-center pb-1 mt-2">
+                            <div class="col">
+                                <p class="text-primary m-0 fw-bold">Evidencia: {{evidencia?.evidencia?.evidencia}}<br></p>
+                            </div>
+                            <div class="col col-3">
+                                <div class="d-flex flex-row align-items-end">
+                                    <div class="d-flex flex-column justify-content-end">
+                                        <div class="ps-2">
+                                            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseObservaciones" aria-expanded="false"
+                                                aria-controls="collapseObservaciones">
+                                                <i class="fas fa-file-signature"></i>
+                                                Desplegar observaciones
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-end">
+                                        <div class="ps-2">
+                                            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseAvance" aria-expanded="false"
+                                                aria-controls="collapseAvance">
+                                                <i class="fas fa-line-chart"></i>
+                                                Desplegar avance
+                                            </button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div> 
+                        </div>
+                        
+                    </div>
+                    <div class="mb-2">
+                        <div class="collapse" id="collapseObservaciones">
+                            <div class="card card-body">
+                                <app-observacion-soporte 
+                                    [id_evidencia]="evidencia.evidencia.id"
+                                    [observacion_mode]="true" 
+                                    [tipo_actor]="role">
+                                </app-observacion-soporte>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="collapse" id="collapseAvance">
+                            <div class="card card-body">
+                                <agregar-calificacion [evidencia]="evidencia.evidencia"></agregar-calificacion>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Insert divider-->
+                    <div class="divider"></div>
+                    <div class="card-body">
+                        <div class="row d-flex flex-row">
+                            <div class="col">
+                                <b class="m-0">Soportes cargados</b>
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <app-forms-soporte-evidencia *hasRole="'LIDER'" [id_evidencia]="evidencia.evidencia.id" (add)="addEvidencia($event)">
+                                </app-forms-soporte-evidencia>
+                            </div>
+                        </div>
+                        <div class="table-responsive table mt-2" id="dataTable-1" role="grid"
+                            aria-describedby="dataTable_info">
+                            <table class="table table-bordered table-striped" id="dataTable"
+                                *ngIf="evidencia?.evidencia?.soporteEvidencia?.length != 0? true : false">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre Soporte</th>
+                                        <th>Fecha de carga</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let soporte_evidencia of evidencia?.evidencia?.soporteEvidencia">
+                                        <td>{{soporte_evidencia.nombre}}<br></td>
+                                        <td>{{convertTimeToString(soporte_evidencia.fechaCreacion)}}<br></td>
+                                        <td>
+                                            <button id="btn-icon" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                data-placement="top" title="Ver soporte" (click)="open(modal_ver)">
+                                                <fa-icon [icon]="eyeIcon"></fa-icon>
+                                            </button>
+                                            <button *hasRole="'LIDER'" id="btn-icon" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                data-placement="top" title="Editar soporte"
+                                                (click)="open(modal_editar)">
+                                                <fa-icon [icon]="penIcon"></fa-icon>
+                                            </button>
+                                            <button *hasRole="'LIDER'" id="btn-icon" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                data-placement="top" title="Eliminar soporte"
+                                                (click)="open(modal_eliminar)">
+                                                <fa-icon [icon]="trashIcon"></fa-icon>
+                                            </button>
+                                        </td>
+                                        <!--- Modal Ver Soporte -->
+                                        <ng-template #modal_ver let-modalVer>
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Ver soporte evidencia
+                                                </h4>
+                                                <button type="button" class="btn-close" aria-label="Close"
+                                                    (click)="modalVer.dismiss()"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ver-soporte-evidencia-component [soporte]="soporte_evidencia">
+                                                </ver-soporte-evidencia-component>
+                                            </div>
+                                        </ng-template>
+                                        <!--- Modal Editar Soporte -->
+                                        <ng-template #modal_editar let-modalEditar>
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Editar soporte evidencia
+                                                </h4>
+                                                <button type="button" class="btn-close" aria-label="Close"
+                                                    (click)="modalEditar.dismiss()"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <editar-soporte-evidencia [soporte]="soporte_evidencia" (update)="updateEvidencia($event)">
+                                                </editar-soporte-evidencia>
+                                            </div>
+                                        </ng-template>
+                                        <!--- Modal Eliminar Soporte -->
+                                        <ng-template #modal_eliminar let-modalEliminar>
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Eliminar soporte
+                                                    evidencia</h4>
+                                                <button type="button" class="btn-close" aria-label="Close"
+                                                    (click)="modalEliminar.dismiss()"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>¿Estas seguro de eliminar la evidencia {{soporte_evidencia.nombre}}?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer justify-content-evenly">
+                                                <app-spinner [type]="'bg'" *ngIf="deleting; else loaded"></app-spinner>
+                                                <ng-template #loaded>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        (click)="modalEliminar.close()">Cancelar</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        (click)="deleteEvidencia(soporte_evidencia.id)">Eliminar</button>
+                                                </ng-template>
+                                            </div>
+                                        </ng-template>
+
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr></tr>
+                                </tfoot>
+                            </table>
+                            <div *ngIf="evidencia?.evidencia.soporteEvidencia?.length==0" class="alert alert-info">
+
+                                No hay registros en la base de datos
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+        </div>
+    </div>
+</div>

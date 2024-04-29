@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-body">
+      {{observacion.observacion.observacion}}
+    </div>
+</div>
+<div *ngIf="observacion?.observacion?.id !== null && observacion?.observacion?.id > 0 && observacion?.observacion?.observacion !==''">
+  <p class="mb-0 text-center"><b>Agregada el </b>{{convertTimeToString(observacion?.observacion?.fechaCreacion)}} </p>
+                <div class="text-center">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="checkCorregida">Corregida</label>
+                        <input class="form-check-input" [checked]="observacion.observacion.corregida" [disabled]="!corregir" type="radio" [id]="'check_corregida_input'+observacion.observacion.id" [disabled]=""  (click)='_MarcarCorregida(observacion, true)'>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="checkSinCorregir">Sin corregir</label>
+                        <input class="form-check-input" [checked]="!observacion.observacion.corregida" [disabled]="!corregir" type="radio" [id]="'check_sin_corregir_input'+observacion.observacion.id" (click)='_MarcarCorregida(observacion, false)'>
+                    </div>
+                </div>
+</div>

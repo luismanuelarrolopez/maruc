@@ -1,0 +1,6 @@
+<div class="col d-flex flex-column align-items-center">
+    <p><b>{{filename}}</b></p>
+    <button *ngIf="soporte.id>0" class="btn btn-primary" (click)="descargarSoporte()">Descargar soporte 
+        <fa-icon [icon]="downloadIcon"></fa-icon>
+    </button>
+</div>

@@ -1,0 +1,109 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 5px;">
+        <div class="col">
+            <h3 class="text-primary mb-0">Materializacion</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card shadow p-0">
+            <div class="card-header py-3">
+                    <div class="col">
+                        <p class="text-primary m-0 fw-bold">Materializacion del riesgo</p>
+                    </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-end">
+                        <button class="btn btn-primary btn-sm" type="button" (click)="open(modal_no_identificado)">
+                            Notificar riesgo no identificado
+                        </button>
+                        <!--- Modal Riesgo sin identificar -->
+                        <ng-template #modal_no_identificado let-modalNoIdentificado>
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Notificar riesgo no identificado</h4>
+                                <button type="button" class="btn-close" aria-label="Close" (click)="modalNoIdentificado.dismiss()"></button>
+                              </div>
+                              <div class="modal-body">
+                                <form #MaterialziacionSinForm="ngForm">  
+                                    <p class="text-danger m-0 mt-2"><b class="text-secondary">Descripción</b>*</p>
+                                    <textarea class="form-control form-control-sm" rows="4" [(ngModel)]="descripcion_materializacion" name="descripcion_materializacion" required minlength="4" maxlength="500" #descripcion="ngModel"></textarea>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p [ngClass]="descripcion_materializacion.length == 500? 'text-danger':''">{{descripcion_materializacion.length}}/500</p>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-danger" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+                                        <div *ngIf="descripcion.errors?.['required']">
+                                            La descripción es requerida
+                                        </div>
+                                        <div *ngIf="descripcion.errors?.['minlength']">
+                                            La descripción debe tener por lo menos 4 caracteres.
+                                        </div>
+                                    </div>
+                                    <div class="row ml-2">
+                                        <small> Los campos marcados con (<b class="text-danger">*</b>) son obligatorios</small >
+                                    </div>
+                                    <div class="row m-1" >
+                                        <button class="btn btn-primary btn-sm mt-3" type="button" [disabled]="!MaterialziacionSinForm.form.valid" (click)='NotificarMaterializacion()'>
+                                            Notificar materialización
+                                        </button>
+                                    </div>
+                                </form>
+                              </div>
+                        </ng-template>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary btn-sm" type="button" (click)="open(modal_identificado)">
+                            Notificar riesgo identificado
+                        </button>
+                        <!--- Modal Riesgo identificado -->
+                        <ng-template #modal_identificado let-modalIdentificado>
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Notificar riesgo identificado</h4>
+                                <button type="button" class="btn-close" aria-label="Close" (click)="modalIdentificado.dismiss()"></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="col">
+                                    <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+                                    <ng-template #loaded>
+                                        <form #MaterialziacionForm="ngForm">  
+                                            <p class="text-danger m-0"><b class="text-secondary">Riesgo</b>*</p>
+                                            <select class="form-select form-select-sm" (change)="handleSelectRiesgo($event)" name="riesgo" required>
+                                                <option value="0" >-- Selecciona un riesgo --</option>
+                                                <option [value]="item.id" *ngFor="let item of riesgos">{{item.nombre}}</option>
+                                            </select>
+                                            <p class="text-danger m-0 mt-2"><b class="text-secondary">Descripción</b>*</p>
+                                            <textarea class="form-control form-control-sm" rows="4" [(ngModel)]="descripcion_materializacion" name="descripcion_materializacion" required minlength="4" maxlength="500" #descripcion="ngModel"></textarea>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p [ngClass]="descripcion_materializacion.length == 500? 'text-danger':''">{{descripcion_materializacion.length}}/500</p>
+                                                </div>
+                                            </div>
+                                            <div class="alert alert-danger" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+                                                <div *ngIf="descripcion.errors?.['required']">
+                                                    La descripción es requerida
+                                                </div>
+                                                <div *ngIf="descripcion.errors?.['minlength']">
+                                                    La descripción debe tener por lo menos 4 caracteres.
+                                                </div>
+                                            </div>
+                                            <div class="row ml-2">
+                                                <small> Los campos marcados con (<b class="text-danger">*</b>) son obligatorios</small >
+                                            </div>
+                                            <div class="row m-1" >
+                                                <button class="btn btn-primary btn-sm mt-3" type="button" [disabled]="!MaterialziacionForm.form.valid || riesgo_selected == null" (click)='NotificarMaterializacion()'>
+                                                    Notificar materialización
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </ng-template>
+                                </div>
+                              </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

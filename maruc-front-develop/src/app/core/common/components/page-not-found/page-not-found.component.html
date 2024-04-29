@@ -1,0 +1,18 @@
+<div id="wrapper">
+    <app-header></app-header>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <app-navigation></app-navigation>
+            <div class="container-fluid">
+                <div class="text-center mt-5">
+                    <div class="error mx-auto" data-text="404">
+                        <p class="m-0">404</p>
+                    </div>
+                    <p class="text-dark mb-5 lead">Página no encontrada</p>
+                    <p class="text-black-50 mb-0">Parece que encontraste una falla en la matriz...</p><a [routerLink]="['/dashboard']">← Volver al dashboard</a>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>

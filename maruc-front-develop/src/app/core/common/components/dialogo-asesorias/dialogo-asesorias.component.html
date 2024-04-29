@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h4 class="modal-title">Asesorias</h4>
+  <button
+    class="btn-close"
+    aria-label="close"
+    (click)="cerrarDialogo()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <!-- Oficina asesora -->
+    <div class="row">
+      <div class="col">
+        <label for="oficinaAsesora" class="form-label">Oficina asesora</label>
+        <select
+          id="oficinaAsesora"
+          class="form-select"
+          formControlName="oficinaAsesora"
+          [ngClass]="{
+            'is-invalid': submitted && f['oficinaAsesora']?.errors
+          }"
+        >
+          <option value="">Seleccione una oficiona asesora</option>
+          <option value="OCI">Oficina de control interno</option>
+          <option value="OPDI">
+            Oficina de planeación y control institucional
+          </option>
+        </select>
+        <div *ngIf="submitted && f['oficinaAsesora'].errors" class="invalid-feedback">
+            <div *ngIf="f['oficinaAsesora']?.errors['required']">
+              Debe seleccionar una oficina asesora.
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- Fin oficina asesora -->
+
+    <!-- Tema -->
+    <div class="row">
+      <div class="col">
+        <label for="tema" class="form-label">Tema asesoria</label>
+        <textarea
+          class="form-control"
+          id="tema"
+          cols="30"
+          rows="10"
+          formControlName="tema"
+          [ngClass]="{
+            'is-invalid': submitted && f['tema']?.errors
+          }"
+        ></textarea>
+        <div *ngIf="submitted && f['tema'].errors" class="invalid-feedback">
+          <div *ngIf="f['tema'].errors['required']">
+            Debe ingresar un tema para la asesoria.
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin tema -->
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cerrarDialogo()">
+    Cerrar
+  </button>
+  <button type="button" (click)="onSubmit()" class="btn btn-primary">Guardar</button>
+</div>

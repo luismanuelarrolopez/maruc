@@ -1,0 +1,145 @@
+<div class="modal-header">
+  <h4 class="modal-title">Usuarios</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="onCerrarDialogo()"
+  ></button>
+</div>
+<div class="modal-body">
+  <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+  <ng-template #loaded>
+    <form [formGroup]="formularioUsuario" #frm>
+      <!-- Nombres row -->
+      <div class="row">
+        <div class="col">
+          <label for="nombres" class="form-label">Nombres</label>
+          <input
+            id="nombres"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && f['nombres']?.errors
+            }"
+            formControlName="nombres"
+          />
+          <div *ngIf="f['nombres']?.errors" class="invalid-feedback">
+            <div *ngIf="f['nombres']?.errors['required']">
+              Debe ingresar los nombres.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin nombres row -->
+
+      <!-- Apellidos row -->
+      <div class="row mt-3">
+        <div class="col">
+          <label for="apellidos" class="form-label">Apellidos</label>
+          <input
+            id="apellidos"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && f['apellidos']?.errors
+            }"
+            formControlName="apellidos"
+          />
+          <div *ngIf="f['apellidos']?.errors" class="invalid-feedback">
+            <div *ngIf="f['apellidos']?.errors['required']">
+              Debe ingresar los apellidos.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin apellidos row -->
+
+      <!-- Email row -->
+      <div class="row mt-3">
+        <div class="col">
+          <label for="email" class="form-label">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': submitted && f['email']?.errors
+            }"
+            formControlName="email"
+          />
+          <div *ngIf="f['email']?.errors" class="invalid-feedback">
+            <div *ngIf="f['email']?.errors['required']">
+              Debe ingresar el email.
+            </div>
+            <div *ngIf="f['email']?.errors['email']">
+              Debe ingresar un email válido.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin email row -->
+
+      <!-- Row roles -->
+      <div class="row mt-3">
+        <div class="col">
+          <label for="roles" class="form-label">Roles</label>
+          <select
+            id="roles"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid': submitted && f['rol']?.errors
+            }"
+            formControlName="idRol"
+          >
+            <option value="">Seleccione un rol</option>
+            <option *ngFor="let rol of roles$ | async" [value]="rol.id">
+              {{ rol.nombre }}
+            </option>
+          </select>
+          <div *ngIf="f['rol']?.errors" class="invalid-feedback">
+            <div *ngIf="f['rol']?.errors['required']">
+              Debe seleccionar un rol.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin roles row -->
+
+      <!-- Dependencias rows -->
+      <div class="row mt-3">
+        <div class="col">
+          <label for="roles" class="form-label">Dependencias</label>
+          <select
+            id="roles"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid': submitted && f['dependencia']?.errors
+            }"
+            formControlName="idDependencia"
+          >
+            <option value="">Seleccione una dependencia</option>
+            <option
+              *ngFor="let dependencia of dependencias$ | async"
+              [value]="dependencia.id"
+            >
+              {{ dependencia.nombre }}
+            </option>
+          </select>
+          <div *ngIf="f['dependencia']?.errors" class="invalid-feedback">
+            <div *ngIf="f['dependencia']?.errors['required']">
+              Debe seleccionar un rol.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin dependencias rows -->
+    </form>
+  </ng-template>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="onCerrarDialogo()">
+    Cerrar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onGuardar()">
+    Guardar
+  </button>
+</div>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h4 class="modal-title">Agendar asesoria</h4>
+  <button
+    class="btn-close"
+    aria-label="Close"
+    (click)="cerrarDialogo()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formulario">
+    <div class="row">
+      <div class="col">
+        <label for="fecha" class="form-label">Fecha agenda</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="dp"
+            id="fecha"
+            [minDate]="now()"
+            [(ngModel)]="model"
+            formControlName="fechaAgendada"
+            ngbDatepicker
+            #d="ngbDatepicker"
+            [ngClass]="{ 'is-invalid': submitted && f['fechaAgendada'].errors }"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            (click)="d.toggle()"
+            type="button"
+          >
+            <i class="fas fa-calendar"></i>
+          </button>
+          <div
+            *ngIf="submitted && f['fechaAgendada'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['fechaAgendada'].errors['required']">
+              Debe ingeresa una fecha
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cerrarDialogo()">
+    Cerrar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()">
+    Guardar
+  </button>
+</div>

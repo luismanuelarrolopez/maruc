@@ -1,0 +1,87 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Evaluación de controles</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner [type]="'bg'" *ngIf="loading; else pageLoaded"></app-spinner>
+    <ng-template #pageLoaded>
+      <div>
+        <h6 class="card-title subtitle mt-3">Lista de controles</h6>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <th scope="col">Tipo Control</th>
+              <th scope="col">Control</th>
+              <th scope="col">Ejecución por sistemas digitales</th>
+              <th scope="col">Difusión del control</th>
+              <th scope="col">Se cumple o ejecuta</th>
+              <th scope="col">Periocidad de ejecución</th>
+              <th scope="col">Periocidad de seguimiento</th>
+              <th scope="col">Valoración</th>
+              <th *ngIf="!lock_info" scope="col">Acciones</th>
+            </thead>
+            <tbody>
+              <tr *ngIf="loadingData$ | async; else loaded">
+                <td></td>
+                <td colspan="5" class="text-center">
+                  <app-spinner [type]="'bg'"></app-spinner>
+                </td>
+              </tr>
+              <ng-template #loaded>
+                <tr
+                  *ngFor="let control of controles"
+                  (click)="seleccionar(control)"
+                  [ngClass]="{
+                    active: 'active'
+                      ? control.id === controlSeleccionado?.id
+                      : ''
+                  }"
+                >
+                  <td>{{ control.tipoControl.nombre }}</td>
+                  <td>{{ control.nombre }}</td>
+                  <td>{{ control.ejecucionSistemasDigitales.nombre }}</td>
+                  <td>{{ control.difusion.nombre }}</td>
+                  <td>{{ control.empleaOEjecuta.nombre }}</td>
+                  <td>{{ control.periodicidadEjecucion.nombre }}</td>
+                  <td>{{ control.periodicidadSegumiento.nombre }}</td>
+                  <td>{{ calcularValoracion(control) | number: "1.0-2" }}</td>
+                  <td *ngIf="!lock_info">
+                    <button class="btn btn-primary rounded-circle">
+                      <i class="fas fa-pen fa-sm"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Totales</td>
+                  <td colspan="3"></td>
+                  <td class="text-dark">Nivel valoracion</td>
+                  <td>{{ nivelValoracion }}</td>
+                  <td>Sumatoria</td>
+                  <td>{{ sumatoria | number: "1.0-2" }}</td>
+                  <td *ngIf="!lock_info"></td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="!lock_info" class="my-4 form">
+          <app-control-form
+            (onCancel)="onFormCancel()"
+            (onSave)="onFormSave()"
+            [control]="controlSeleccionado"
+          ></app-control-form>
+        </div>
+      </div>
+
+      <div *ngIf="!lock_info" class="row">
+        <div class="d-flex justify-content-end mt-4">
+          <button (click)="onNext()" class="btn btn-primary m-1" type="button">
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

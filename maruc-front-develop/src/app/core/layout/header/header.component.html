@@ -1,0 +1,114 @@
+<nav
+  id="nav-principal"
+  class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled"
+>
+  <div class="container-fluid d-flex flex-column p-0">
+    <a
+      class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+      href="/dashboard"
+    >
+      <div class="row mt-2 justify-content-center align-items-center">
+        
+          <div class="col">
+            <div><span>MARUC</span></div>
+          </div>
+        
+      </div>
+    </a>
+    <hr class="sidebar-divider my-0" />
+    <ul class="navbar-nav text-light mt-2" id="accordionSidebar">
+      <li class="nav-item" *hasRole="'LIDER'">
+        <a class="nav-link" [routerLink]="['/lider_proceso/riesgos']"
+          ><i class="fas fa-file-alt"></i><span>Riesgos</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'LIDER'">
+        <a class="nav-link" [routerLink]="['/lider_proceso/materializacion']"
+          ><i class="fas fa-exclamation"></i><span> Materialización</span></a
+        >
+      </li>
+      <!--OCI MENU OPTIONS-->
+      <li class="nav-item" *hasRole="'OCI'">
+        <a class="nav-link" [routerLink]="['/oci/riesgos']"
+          ><i class="fas fa-file-alt"></i><span>Riesgos</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'OCI'">
+        <a class="nav-link" [routerLink]="['/oci/evaluacion']"
+          ><i class="fas fa-file-signature"></i><span>Evaluación</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'OCI'">
+        <a class="nav-link" [routerLink]="['/oci/indicadores']"
+          ><i class="fas fa-chart-area"></i><span>Indicadores</span></a
+        >
+      </li>
+      <!--END OCI MENU OPTIONS-->
+
+      <!--OPDI MENU OPTIONS-->
+      <li class="nav-item" *hasRole="'OPDI'">
+        <a class="nav-link" [routerLink]="['/opdi/riesgos']"
+          ><i class="fas fa-file-alt"></i><span>Riesgos</span></a
+        >
+      </li>
+
+      <li class="nav-item" *hasRole="'OPDI'">
+        <a class="nav-link" [routerLink]="['/opdi/monitoreo']"
+          ><i class="fas fa-search"></i><span>Monitoreo</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'OPDI'">
+        <a class="nav-link" [routerLink]="['/opdi/indicadores']"
+          ><i class="fas fa-chart-area"></i><span>Indicadores</span></a
+        >
+      </li>
+      <!--END OPDI MENU OPTIONS-->
+
+      <!-- ADMIN MENU OPTIONS -->
+      <li class="nav-item" *hasRole="'ADMIN'">
+        <a class="nav-link" [routerLink]="['/usuarios']"
+          ><i class="fas fa-user"></i><span>Usuarios</span></a
+        >
+      </li>
+      <!-- Fin nav usuarios -->
+
+      <!-- Nav catálogos-->
+      <li class="nav-item" *hasRole="'ADMIN'">
+        <a class="nav-link" [routerLink]="['/catalogos']"
+          ><i class="fas fa-puzzle-piece"></i><span>Catálogos</span></a
+        >
+      </li>
+      <!-- Fin nav catálogos-->
+
+      <!-- Nav asesorias -->
+      <li class="nav-item" *hasRole="'OCI'">
+        <a class="nav-link" [routerLink]="['/asesorias']"
+          ><i class="fas fa-puzzle-piece"></i><span>Asesorias</span></a
+        >
+      </li>
+
+      <li class="nav-item" *hasRole="'OPDI'">
+        <a class="nav-link" [routerLink]="['/asesorias']"
+          ><i class="fas fa-puzzle-piece"></i><span>Asesorias</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'OPDI'">
+        <a class="nav-link" [routerLink]="['/opdi/versiones']"
+          ><i class="fas fa-clock"></i><span>Versiones</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'OCI'">
+        <a class="nav-link" [routerLink]="['/oci/versiones']"
+          ><i class="fas fa-clock"></i><span>Versiones</span></a
+        >
+      </li>
+      <li class="nav-item" *hasRole="'LIDER'">
+        <a class="nav-link" [routerLink]="['/lider_proceso/versiones']"
+          ><i class="fas fa-clock"></i><span>Versiones</span></a
+        >
+      </li>
+      <!-- Fin nav asesorias -->
+    </ul>
+    
+  </div>
+</nav>

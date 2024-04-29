@@ -1,0 +1,21 @@
+<app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+<ng-template #loaded>
+    <div id="list-container">
+        <ul *ngFor="let observacion of observaciones" class="list-group">
+            <li class="list-group-item">
+                <p class="text-center"><b class="text-center"> {{observacion.observacion.observacion}}</b></p>
+                <p class="mb-0 text-center"><b>Agregada el </b>{{convertTimeToString(observacion?.observacion?.fechaActualizacion)}} </p>
+                <div class="text-center">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="checkCorregida">Corregida</label>
+                        <input class="form-check-input" [id]="'corregida_input'+observacion.id" [checked]="observacion.observacion.corregida" type="radio" [disabled]="!corregir" id="checkCorregida"  (click)='_MarcarCorregida(observacion, true)'>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="checkSinCorregir">Sin corregir</label>
+                        <input class="form-check-input" [id]="'sin_corregir_input'+observacion.id" [checked]="!observacion.observacion.corregida" type="radio" [disabled]="!corregir" id="checkSinCorregir" (click)='_MarcarCorregida(observacion, false)'>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</ng-template>

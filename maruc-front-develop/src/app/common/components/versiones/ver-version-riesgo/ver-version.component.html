@@ -1,0 +1,9 @@
+<div class="col d-flex flex-column align-items-center">
+    <p><b>{{filename}}</b></p>
+    <app-spinner [type]="'sm'" *ngIf="loading; else loaded"></app-spinner>
+    <ng-template #loaded>
+        <button *ngIf="version.id>0" class="btn btn-primary" (click)="descargarVersion()">Descargar versión
+            <fa-icon [icon]="downloadIcon"></fa-icon>
+        </button>
+    </ng-template>
+</div>

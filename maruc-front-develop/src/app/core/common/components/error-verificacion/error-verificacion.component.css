@@ -1,0 +1,13 @@
+.center {
+  position: relative;
+  height: calc(100vh - 150px);
+}
+
+.center > .card {
+  min-width: 60%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

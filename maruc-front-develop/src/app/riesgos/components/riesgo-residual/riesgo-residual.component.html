@@ -1,0 +1,156 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Controles residuales</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+    <ng-template #loaded>
+      <app-info-riesgo-residual
+        [lock_info]="lock_info"
+        (onSaved)="onRiesgoResidualSaved($event)"
+        [riesgoResidual]="riesgoResidual"
+      ></app-info-riesgo-residual>
+
+      <app-controles-residuales
+        *ngIf="showControles()"
+        [controles]="controles"
+        [lock_info]="lock_info"
+        [idRiesgoResidual]="riesgoResidual.id"
+      ></app-controles-residuales>
+      <!-- Causas críticas y sus controles -->
+      <!-- Lista de causas -->
+      <!--  <div class="controles mt-4">
+      <div class="controles__causas">
+        <table class="table">
+          <caption style="text-align: center">
+            Tabla de causas críticas
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Causa</th>
+              <th scope="col">Valoración</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let causa of causasCriticas; let idx = index">
+              <td>{{ causa.causa.causa }}</td>
+              <td>{{ causa.valoracion }}</td>
+              <td>
+                <button class="btn btn-primary" (click)="selecionarCausa(idx)">
+                  Ver control
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+      <!-- <div class="controles__causasseleccionada"> -->
+      <!-- Formulario de causa seleccionada -->
+      <!-- <h6 class="subtitle">Control</h6>
+        <form [formGroup]="formCausa">
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <label for="tipo" class="form-label">Tipo de control</label>
+              <select
+                name=""
+                id="tipo"
+                class="form-select"
+                formControlName="idTipoControl"
+              >
+                <option
+                  *ngFor="let tipoControl of tiposControl$ | async"
+                  [value]="tipoControl.id"
+                >
+                  {{ tipoControl.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="control" class="form--label">Control</label>
+              <input
+                formControlName="control"
+                type="text"
+                id="control"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label for="responsable" class="form-label">Responsable</label>
+              <input
+                formControlName="responsable"
+                type="text"
+                id="responsable"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <label for="periodicidad" class="form--label">Periodicidad</label>
+              <select
+                formControlName="idPeriodicidad"
+                name=""
+                id="periodicidad"
+                class="form-select"
+              >
+                <option
+                  *ngFor="let periodicidad of periodicidades$ | async"
+                  [value]="periodicidad.id"
+                >
+                  {{ periodicidad.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="evidencia" class="form-label">Evidencia</label>
+              <input
+                formControlName="evidencia"
+                type="text"
+                id="evidencia"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label for="indicador" class="form-label">Indicador</label>
+              <input
+                formControlName="indicador"
+                type="text"
+                id="indicador"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="d-flex justify-content-start mt-4">
+              <button class="btn btn-primary" (click)="onSaveControlResidual()">
+                Guardar control
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div> -->
+
+      <div class="row" *ngIf="!lock_info">
+        <div class="d-flex justify-content-end mt-4">
+          <button
+            class="btn btn-primary m-1"
+            type="button"
+            (click)="finalizar()"
+          >
+            Finalizar
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

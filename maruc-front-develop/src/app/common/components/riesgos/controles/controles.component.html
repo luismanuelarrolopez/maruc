@@ -1,0 +1,4 @@
+<app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+<ng-template #loaded>
+    <app-controles-table [riesgo]="riesgo" [options]="false"> </app-controles-table>
+</ng-template>

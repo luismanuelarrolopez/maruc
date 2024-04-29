@@ -1,0 +1,42 @@
+th:first-child,
+td:first-child {
+  position: sticky;
+  left: 0px;
+  background-color: #4e72df;
+  color: #f9fafc;
+}
+
+.table-line {
+  display: contents;
+}
+
+.table-wrapper {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+td,
+th {
+  min-width: 200px;
+  text-align: center;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+.table > thead > th {
+  width: 12px !important;
+  padding: 10px;
+}
+
+tr:hover {
+  background-color: #ededed;
+}
+
+tr.active {
+  background-color: #ededed;
+}

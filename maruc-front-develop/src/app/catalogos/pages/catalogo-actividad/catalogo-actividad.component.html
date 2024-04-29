@@ -1,0 +1,67 @@
+<div class="card shadow p-0" style="margin-top: 12px">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Lista de actividades</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <!--
+    <app-custom-modal #frmActividadModal (onClose)="onFormActividadClose()">
+      <ng-template #modalHeader><h3>Crear Actividad</h3></ng-template>
+      <ng-template #modalBody>
+        <app-formulario-actividad [id]="idActividadSeleccionada" (saved)="onSaved($event)" #frmActividades></app-formulario-actividad>
+      </ng-template>
+      <ng-template #modalFooter></ng-template>
+    </app-custom-modal>
+    -->
+    <ng-template #frmModalActividad let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Actividades</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modal.dismiss()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-formulario-actividad
+          [id]="idActividadSeleccionada"
+          (saved)="onSaved($event)"
+          #frmActividades
+        ></app-formulario-actividad>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modal.dismiss()"
+        >
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onGuardar()">
+          Guardar
+        </button>
+      </div>
+    </ng-template>
+
+    <div>
+      <div class="d-flex align-items-center justify-content-end">
+        <button
+          class="btn btn-primary"
+          (click)="onOpenModal(frmModalActividad)"
+        >
+          <i class="fas fa-plus"></i> Crear actividades para calcular la
+          probabilidad
+        </button>
+      </div>
+      <div class="table-responsive">
+        <app-lista-actividades
+          (onSelect)="onSelect($event, frmModalActividad)"
+          #tblActividades
+        ></app-lista-actividades>
+      </div>
+    </div>
+    <div style="margin-top: 12px"></div>
+  </div>
+</div>

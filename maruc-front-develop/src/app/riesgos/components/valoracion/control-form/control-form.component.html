@@ -1,0 +1,137 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label" for="tipo-control">Tipo de control</label>
+        <input
+          class="form-control"
+          formControlName="tipoControl"
+          id="tipo-control"
+          type="text"
+        />
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label" for="aplica">Aplica</label>
+        <select class="form-select" formControlName="aplica" id="aplica">
+          <option [attr.data-value]="false" [ngValue]="false">No</option>
+          <option [attr.data-value]="true" [ngValue]="true">Si</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label">Control</label>
+        <input class="form-control" formControlName="nombre" type="text" />
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label">Responsable</label>
+        <input
+          (blur)="cambioResponable()"
+          class="form-control"
+          formControlName="responsable"
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label" for="ejecucion-sistemas-digitale"
+          >Ejecución por sistemas dígittales</label
+        >
+        <select
+          class="form-select"
+          formControlName="ejecucionSistemasDigitales"
+          id="ejecucion-sistemas-digitale"
+        >
+          <option
+            *ngFor="let ejecucion of ejecucionSistemaDigitales$ | async"
+            [value]="ejecucion.id"
+          >
+            {{ ejecucion.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label">Difusión del control</label>
+        <select class="form-select" formControlName="difusionControl">
+          <option
+            *ngFor="let difusion of difusiones$ | async"
+            [value]="difusion.id"
+          >
+            {{ difusion.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label">Se emplea o ejecuta</label>
+        <select class="form-select" formControlName="empleaEjecuta">
+          <option
+            *ngFor="let emplea of empleaOEjecuta$ | async"
+            [value]="emplea.id"
+          >
+            {{ emplea.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label">Periodicidad de ejecución</label>
+        <select class="form-select" formControlName="periodicidadEjecucion">
+          <option
+            *ngFor="let periodicidad of peridicidades$ | async"
+            [value]="periodicidad.id"
+          >
+            {{ periodicidad.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label">Periodicidad de segumiento</label>
+        <select class="form-select" formControlName="periodicidadSeguimiento">
+          <option
+            *ngFor="let periodicidad of peridicidades$ | async"
+            [value]="periodicidad.id"
+          >
+            {{ periodicidad.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col">
+      <button class="btn-dark btn mx-1" (click)="onCancel()">Cancel</button>
+      <button
+        class="btn btn-primary"
+        (click)="onSave()"
+        [disabled]="!habilitar"
+      >
+        Guardar
+      </button>
+    </div>
+  </div>
+</form>

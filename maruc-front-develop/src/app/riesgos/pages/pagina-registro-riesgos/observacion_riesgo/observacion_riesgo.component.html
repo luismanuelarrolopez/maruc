@@ -1,0 +1,118 @@
+<div class="container-fluid p-0">
+    <div class="row">
+
+        <!--- Observaciones opdi -->
+        
+        <div class="col">
+            <div class="card">
+                <div class="card-header m-0">
+                    <div class="row mt-1">
+                        <div class="col">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div class="d-flex flex-column">
+                                    <label>
+                                        <b class="text-primary">Observación OPDI</b>
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-column align-items-end">
+                                    <div>
+                                        <button *ngIf="riesgo_observacion_opdi?.id" id="btnHistory" title="Ver historial de observaciones" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalObservacionOPDI" (click)="open(modal_observaciones_opdi)">
+                                            Historial <i class="fas fa-history"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div *hasRole="'OPDI'" class="col d-flex flex-column justify-right">
+                            <agregar-observacion-modal [observacion_model]="observacion_model"
+                                (AgregarObservacion)="AgregarObservacionSoporteEvidencia($event)">
+                            </agregar-observacion-modal>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    
+                    <app-spinner [type]="'sm'" *ngIf="loading_observacion_opdi; else loaded_opdi"></app-spinner>
+                    <ng-template #loaded_opdi>
+                            <div class="row">
+                                <div class="col">
+                                    <observacion-previa id="previa-opdi" name="previa-opdi" *ngIf="riesgo_observacion_opdi.id; else notObservationOPDI" [observacion]="riesgo_observacion_opdi" (MarcarCorregida)="MarcarCorregida($event)" [corregir]="!observacion_mode"></observacion-previa>
+                                    <ng-template #notObservationOPDI>
+                                        <p class="m-0">No se han agregado observaciones</p>
+                                    </ng-template>
+                                </div>           
+                            </div>
+                    </ng-template>
+                
+                    <!--- Modal historial opdi -->
+                    <ng-template #modal_observaciones_opdi let-modalObservacionesOPDI>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Historial de observaciones</h4>
+                            <button type="button" class="btn-close" aria-label="Close" (click)="modalObservacionesOPDI.dismiss()"></button>
+                          </div>
+                          <div class="modal-body">
+                            <listar-observaciones-previas [id_entity]="id_riesgo" [codigo_actor]="codigo_actor_opdi" [tipo_observacion]="tipo_observacion" [corregir]="!observacion_mode" (MarcarCorregida)="MarcarCorregida($event)"></listar-observaciones-previas>
+                          </div>
+                    </ng-template>   
+                </div>
+            </div>
+        </div>
+
+        <!--- Observaciones oci -->
+
+
+        <div class="col">
+            <div class="card">
+                <div class="card-header m-0">
+                    <div class="row mt-1">
+                        <div class="col">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div class="d-flex flex-column">
+                                    <label>
+                                        <b class="text-primary">Observación OCI</b>
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-column align-items-end">
+                                    <div>
+                                        <button *ngIf="riesgo_observacion_oci?.id" id="btnHistory" title="Ver historial de observaciones" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalObservacionOCI" (click)="open(modal_observaciones_oci)">
+                                            Historial <i class="fas fa-history"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *hasRole="'OCI'" class="col d-flex flex-column justify-right">
+                            <agregar-observacion-modal [observacion_model]="observacion_model"
+                                (AgregarObservacion)="AgregarObservacionSoporteEvidencia($event)">
+                            </agregar-observacion-modal>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <app-spinner [type]="'sm'" *ngIf="loading_observacion_oci; else loaded_oci"></app-spinner>
+                    <ng-template #loaded_oci>   
+                            <div class="row">
+                                <div class="col">
+                                    <observacion-previa id="previa-oci" name="previa-oci" *ngIf="riesgo_observacion_oci.id; else notObservationOCI" [observacion]="riesgo_observacion_oci" (MarcarCorregida)="MarcarCorregida($event)" [corregir]="!observacion_mode"></observacion-previa>
+                                    <ng-template #notObservationOCI>
+                                        <p class="m-0">No se han agregado observaciones</p>
+                                    </ng-template>
+                                </div>              
+                            </div>
+                    </ng-template>
+                </div>
+        
+            <!--- Modal Historial oci -->
+            <ng-template #modal_observaciones_oci let-modalObservacionesOCI>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Historial de observaciones</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="modalObservacionesOCI.dismiss()"></button>
+                  </div>
+                  <div class="modal-body">
+                    <listar-observaciones-previas [id_entity]="id_riesgo" [codigo_actor]="codigo_actor_oci" [tipo_observacion]="tipo_observacion" [corregir]="!observacion_mode" (MarcarCorregida)="MarcarCorregida($event)"></listar-observaciones-previas>
+                  </div>
+            </ng-template>  
+        </div>
+    </div>
+</div>

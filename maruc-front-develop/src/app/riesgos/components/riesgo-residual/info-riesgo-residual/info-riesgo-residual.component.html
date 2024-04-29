@@ -1,0 +1,45 @@
+<form class="mt-4" [formGroup]="formGeneral">
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="nivelResidual" class="form-label">Riesgo residual</label>
+        <input
+          formControlName="nivel"
+          type="text"
+          id="nivelResidual"
+          class="form-control"
+        />
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="tratamiento" class="form-label">Tratamiento</label>
+        <select
+          id="tratamiento"
+          class="form-select"
+          formControlName="tratamiento"
+          [ngClass]="{
+            'is-invalid': submitted && f['tratamiento'].errors
+          }"
+        >
+          <option value="">Seleccionar</option>
+          <option value="reducir">Reducir</option>
+          <option value="evitar">Evitar</option>
+        </select>
+        <div
+          *ngIf="submitted && f['tratamiento'].errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['tratamiento'].errors['required']">
+            Debe seleccionar el tratamiento del riesgo.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!lock_info" class="mt-3">
+      <button class="btn btn-primary mx-1" (click)="onSave()">Guardar</button>
+    </div>
+  </div>
+</form>

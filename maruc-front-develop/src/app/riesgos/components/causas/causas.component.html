@@ -1,0 +1,317 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Causas del riesgo</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner
+      [type]="'bg'"
+      *ngIf="loadingTab$ | async; else pageLoaded"
+    ></app-spinner>
+    <ng-template #pageLoaded>
+      <div *ngIf="!lock_info">
+        <form [formGroup]="formulario">
+          <div class="row mt-4">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label" for="causaInicial"
+                  >Causa inicial</label
+                >
+                <textarea
+                  [ngClass]="{
+                    'is-invalid': submitted && f['causaInicial']?.errors
+                  }"
+                  class="form-control"
+                  cols="30"
+                  formControlName="causaInicial"
+                  id="causaInicial"
+                  appCharacterCount
+                  maxlength="1000"
+                  name="causaInicial"
+                  rows="5"
+                ></textarea>
+                <div
+                  *ngIf="submitted && f['causaInicial']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['causaInicial'].errors['required']">
+                    Debe ingresar la causa inicial.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="form-label" for="porque1">¿Por qué 1?</label>
+                <textarea
+                  class="form-control"
+                  formControlName="porque1"
+                  id="porque1"
+                  appCharacterCount
+                  maxlength="250"
+                  cols="30"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="col-sm-12 mt-4">
+              <div class="form-group">
+                <label class="form-label" for="porque2">¿Por qué 2?</label>
+                <textarea
+                  class="form-control"
+                  formControlName="porque2"
+                  id="porque2"
+                  appCharacterCount
+                  maxlength="250"
+                  cols="30"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="col-sm-12 mt-4">
+              <div class="form-group">
+                <label class="form-label" for="porque3">¿Por qué 3?</label>
+                <textarea
+                  class="form-control"
+                  formControlName="porque3"
+                  id="porque3"
+                  appCharacterCount
+                  maxlength="250"
+                  cols="30"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-12">
+              <h5 class="text-primary">Valoración de criticidad</h5>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="form-label" for="puntaje1">Puntaje 1</label>
+                <input
+                  (change)="onPuntajeChange()"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['puntaje1']?.errors
+                  }"
+                  class="form-control"
+                  formControlName="puntaje1"
+                  id="puntaje1"
+                  max="10"
+                  min="0"
+                  step="1"
+                  type="number"
+                />
+                <div
+                  *ngIf="submitted && f['puntaje1']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    *ngIf="
+                      f['puntaje1'].errors['min'] || f['puntaje1'].errors['max']
+                    "
+                  >
+                    Debe ingresar un valor entre 0 y 10
+                  </div>
+                  <div *ngIf="f['puntaje1'].errors['pattern']">
+                    Debe ingresar un valor entero
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="form-label" for="puntaje2">Puntaje 2</label>
+                <input
+                  (change)="onPuntajeChange()"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['puntaje2']?.errors
+                  }"
+                  class="form-control"
+                  formControlName="puntaje2"
+                  id="puntaje2"
+                  type="number"
+                />
+                <div
+                  *ngIf="submitted && f['puntaje2']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    *ngIf="
+                      f['puntaje2'].errors['min'] || f['puntaje2'].errors['max']
+                    "
+                  >
+                    Debe ingresar un valor entre 0 y 10
+                  </div>
+                  <div *ngIf="f['puntaje2'].errors['pattern']">
+                    Debe ingresar un valor entero
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="form-label" for="puntaje3">Puntaje 3</label>
+                <input
+                  (change)="onPuntajeChange()"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['puntaje3']?.errors
+                  }"
+                  class="form-control"
+                  formControlName="puntaje3"
+                  id="puntaje3"
+                  type="number"
+                />
+                <div
+                  *ngIf="submitted && f['puntaje3']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    *ngIf="
+                      f['puntaje3'].errors['min'] || f['puntaje3'].errors['max']
+                    "
+                  >
+                    Debe ingresar un valor entre 0 y 10
+                  </div>
+                  <div *ngIf="f['puntaje3'].errors['pattern']">
+                    Debe ingresar un valor entero
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="form-label" for="sumatoria">Puntaje total</label>
+                <input
+                  class="form-control"
+                  formControlName="sumatoria"
+                  id="sumatoria"
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label" for="causa">Causa crítica</label>
+                <textarea
+                  [ngClass]="{
+                    'is-invalid': submitted && f['causa']?.errors
+                  }"
+                  class="form-control"
+                  cols="30"
+                  formControlName="causa"
+                  id="causa"
+                  name="causa"
+                  appCharacterCount
+                  maxlength="1000"
+                  rows="5"
+                ></textarea>
+                <div
+                  *ngIf="submitted && f['causa']?.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['causa'].errors['required']">
+                    Debe ingresar la causa crítica.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex justify-content-start">
+            <button class="btn btn-dark mx-1" (click)="onCancel()">
+              Cancelar
+            </button>
+            <button (click)="onSave()" class="btn btn-primary mx-1">
+              Guardar
+            </button>
+          </div>
+        </form>
+
+        <hr />
+      </div>
+
+      <div class="lista-cartas mt-4">
+        <h5 class="lista cartas__title card-title subtitle">Lista de causas</h5>
+        <table
+          class="table lista-cartas__table mt-4"
+          *ngIf="causas.length != 0"
+        >
+          <thead>
+            <tr>
+              <th>Causa</th>
+              <th>Puntaje 1</th>
+              <th>Puntaje 2</th>
+              <th>Puntaje 3</th>
+              <th>Puntaje total</th>
+              <th *ngIf="!lock_info">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loadingCausas$ | async; else loaded">
+              <td colspan="6" class="text-center">
+                <app-spinner [type]="'bg'"></app-spinner>
+              </td>
+            </tr>
+            <ng-template #loaded>
+              <tr *ngIf="causas.length === 0">
+                <td colspan="6" class="text-center">
+                  No hay causas registradas para el riesgo
+                </td>
+              </tr>
+              <tr
+                *ngFor="let causa of causas; let idx = index"
+                [attr.data-index]="idx"
+                [isCausaCritica]="idx"
+              >
+                <!--</tr> [ngStyle]="{ 'background-color': getBackColor(causa.sumatoria) }"-->
+                <td>{{ causa.causa }}</td>
+                <td>{{ causa.puntaje1 }}</td>
+                <td>{{ causa.puntaje2 }}</td>
+                <td>{{ causa.puntaje3 }}</td>
+                <td>{{ causa.sumatoria }}</td>
+                <td *ngIf="!lock_info">
+                  <button
+                    class="btn btn-primary rounded-circle mx-1"
+                    (click)="onCausaSelected(causa)"
+                  >
+                    <i class="fas fa-pen fa-sm"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger rounded-circle mx-1"
+                    (click)="onDelete(causa.id)"
+                  >
+                    <i class="fas fa-trash fa-sm"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+        <div *ngIf="causas.length == 0" class="alert alert-info">
+          Aun no has agregado causas
+        </div>
+      </div>
+
+      <div *ngIf="!lock_info" class="d-flex justify-content-end mt-4">
+        <button (click)="onNext()" class="btn btn-primary m-1" type="button">
+          Siguiente
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+<app-spinner [type]="'sm'" *ngIf="loading; else loaded"></app-spinner>
+<ng-template #loaded>
+    <form #CalificacionForm="ngForm">
+        <div class="row m-1 justify-content-center">
+            <div class="col ps-0">
+                <div class="card">
+                    <div class="card-header m-0"><b class="text-primary">Avance OPDI</b></div>
+                    <div class="row m-1 justify-content-center">
+                        <div class="col text-center" *hasRole="'LIDER'">
+                            <p class="m-0"><b class="text-secondary">Porcentaje de avance OPDI</b></p>
+                            <p class="m-0 text-center">{{evidencia.porcentajeAvanceOpdi}}%</p>
+                        </div>
+                        <div class="col" *hasRole="'LIDER'">
+                            <p class="mb-0 text-center"><b>Cumplimiento OPDI</b></p>
+                            <div class="text-center">
+                                <p>{{evidencia.cumplimiento_opdi? "Si" : "No"}}</p>
+                            </div>
+                        </div>
+                        <div class="col text-center" *hasRole="'OCI'">
+                            <p class="m-0"><b class="text-secondary">Porcentaje de avance OPDI</b></p>
+                            <p class="m-0 text-center">{{evidencia.porcentajeAvanceOpdi}}%</p>
+                        </div>
+                        <div class="col" *hasRole="'OCI'">
+                            <p class="mb-0 text-center"><b>Cumplimiento OPDI</b></p>
+                            <div class="text-center">
+                                <p>{{evidencia.cumplimiento_opdi? "Si" : "No"}}</p>
+                            </div>
+                        </div>
+                        <div class="col" *hasRole="'OPDI'">
+                            <b class="text-secondary m-0">Porcentaje de avance OPDI</b>
+                            <input class="md-light form-control" type="number" min="0" max="100"
+                                [(ngModel)]="evidencia.porcentajeAvanceOpdi" name="calificacion"
+                                required="El campo es requerido" minlength="4" #calificacion="ngModel" />
+                            <div class="alert alert-danger"
+                                *ngIf="calificacion.invalid && (calificacion.dirty || calificacion.touched)">
+                                <div *ngIf="calificacion.errors?.['required']">
+                                    El porcentaje de avance es obligatorio
+                                </div>
+                                <div *ngIf="calificacion.errors?.['min']">
+                                    El porcentaje de avance debe ser mayor a cero.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" *hasRole="'OPDI'">
+                            <p class="mb-0 text-center"><b>Cumplimiento OPDI</b></p>
+                            <div class="text-center">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="checkCorregida">Si</label>
+                                    <input class="form-check-input" [checked]="evidencia.cumplimiento_opdi" type="radio"
+                                        [id]="'check_corregida_input'+evidencia.id" [disabled]=""
+                                        (click)='_MarcarCumplimientoOPDI(true)'>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="checkSinCorregir">No</label>
+                                    <input class="form-check-input" [checked]="!evidencia.cumplimiento_opdi" type="radio"
+                                        [id]="'check_sin_corregir_input'+evidencia.id" (click)='_MarcarCumplimientoOPDI(false)'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- guardar -->
+                    <div class="col text-center mb-1" *hasRole="'OPDI'">
+                        <button class="btn btn-primary btn-sm mt-3" type="button" [disabled]="!CalificacionForm.form.valid"
+                            (click)='agregarPorcentajeAvance()'>
+                            Guardar avance
+                            <fa-icon [icon]="saveicon"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col pe-0">
+                <div class="card">
+                    <div class="card-header m-0"><b class="text-primary">Avance OCI</b></div>
+                    <div class="row m-1 justify-content-center">
+                        <div class="col text-center" *hasRole="'LIDER'">
+                            <p class="m-0"><b class="text-secondary">Porcentaje de avance OCI</b></p>
+                            <p class="m-0 text-center">{{evidencia.porcentajeAvanceOci}}%</p>
+                        </div>
+                        <div class="col" *hasRole="'LIDER'">
+                            <p class="mb-0 text-center"><b>Cumplimiento OCI</b></p>
+                            <div class="text-center">
+                                <p>{{evidencia.cumplimiento_oci? "Si" : "No"}}</p>
+                            </div>
+                        </div>
+        
+        
+                        <div class="col" *hasRole="'OCI'">
+                            <b class="text-secondary m-0">Porcentaje de avance OCI (%)</b>
+                            <input class="md-light form-control" type="number" min="0" max="100"
+                                [(ngModel)]="evidencia.porcentajeAvanceOci" name="calificacion" required="El campo es requerido"
+                                minlength="4" #calificacion="ngModel" />
+                            <div class="alert alert-danger"
+                                *ngIf="calificacion.invalid && (calificacion.dirty || calificacion.touched)">
+                                <div *ngIf="calificacion.errors?.['required']">
+                                    El porcentaje de avance es obligatorio
+                                </div>
+                                <div *ngIf="calificacion.errors?.['min']">
+                                    El porcentaje de avance debe ser mayor a cero.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" *hasRole="'OCI'">
+                            <p class="mb-0 text-center"><b>Cumplimiento OCI</b></p>
+                            <div class="text-center">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="checkCorregida">Si</label>
+                                    <input class="form-check-input" [checked]="evidencia.cumplimiento_oci" type="radio"
+                                        [id]="'check_corregida_input'+evidencia.id" [disabled]=""
+                                        (click)='_MarcarCumplimientoOCI(true)'>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="checkSinCorregir">No</label>
+                                    <input class="form-check-input" [checked]="!evidencia.cumplimiento_oci" type="radio"
+                                        [id]="'check_sin_corregir_input'+evidencia.id" (click)='_MarcarCumplimientoOCI(false)'>
+                                </div>
+                            </div>
+                        </div>
+        
+        
+                        <div class="col  text-center" *hasRole="'OPDI'">
+                            <p class="m-0"><b class="text-secondary">Porcentaje de avance OCI</b></p>
+                            <p class="m-0 text-center">{{evidencia.porcentajeAvanceOci}}%</p>
+                        </div>
+                        <div class="col " *hasRole="'OPDI'">
+                            <p class="mb-0 text-center"><b>Cumplimiento OCI</b></p>
+                            <div class="text-center">
+                                <p>{{evidencia.cumplimiento_oci? "Si" : "No"}}</p>
+                            </div>
+                        </div>
+                        <!-- guardar -->
+                    </div>
+                    <div class="col text-center mb-1" *hasRole="'OCI'">
+                        <button class="btn btn-primary btn-sm mt-3" type="button" [disabled]="!CalificacionForm.form.valid"
+                            (click)='agregarPorcentajeAvance()'>
+                            Guardar avance
+                            <fa-icon [icon]="saveicon"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</ng-template>

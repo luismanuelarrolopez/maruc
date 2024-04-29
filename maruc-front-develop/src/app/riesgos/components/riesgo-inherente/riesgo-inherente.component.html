@@ -1,0 +1,79 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Riesgo inherente</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner [type]="'bg'" *ngIf="loading; else pageLoaded"></app-spinner>
+    <ng-template #pageLoaded>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-label" for="impacto">Impacto</label>
+            <input
+              class="form-control"
+              [(ngModel)]="riesgoInherente.impacto"
+              disabled
+              id="impacto"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-label" for="nivel-probablilidad"
+              >Nivel de probabilidad</label
+            >
+            <input
+              class="form-control"
+              [(ngModel)]="riesgoInherente.nivelProbabilidad"
+              disabled
+              id="nivel-probablilidad"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-label" for="riesgo-inherente"
+              >Riesgo inherente</label
+            >
+            <input
+              class="form-control"
+              [(ngModel)]="riesgoInherente.valoracion"
+              disabled
+              id="riesgo-inherente"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-label" for="tolerancia-riesgo-inherente"
+              >Tolerancia riesgo inherente</label
+            >
+            <input
+              class="form-control"
+              [ngClass]="colorToleranciaRiesgo"
+              [(ngModel)]="riesgoInherente.tolerancia"
+              disabled
+              id="tolerancia-riesgo-inherente"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!lock_info" class="row">
+        <div class="d-flex justify-content-end mt-4">
+          <button (click)="goNext()" class="btn btn-primary m-1" type="button">
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

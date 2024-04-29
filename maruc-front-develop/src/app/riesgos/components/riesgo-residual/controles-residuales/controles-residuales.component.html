@@ -1,0 +1,254 @@
+<div class="mt-4" [hidden]="false">
+  <h5 class="subtitle">Controles riesgo residual</h5>
+  <!-- Tabla controles -->
+  <form class="mt-3" [formGroup]="form" *ngIf="!lock_info">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- Nombre -->
+        <div class="form-group">
+          <label for="nombre">Descripción del control</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nombre"
+            id="nombre"
+            formControlName="nombre"
+            [ngClass]="{
+              'is-invalid': submitted && f['nombre'].errors
+            }"
+          />
+          <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+            <div *ngIf="f['nombre'].errors['required']">
+              Debe ingresar el nombre del control.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Responsable -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="responsable">Responsable</label>
+          <input
+            type="text"
+            class="form-control"
+            name="responsable"
+            id="responsable"
+            formControlName="responsable"
+            [ngClass]="{
+              'is-invalid': submitted && f['responsable'].errors
+            }"
+          />
+          <div
+            *ngIf="submitted && f['responsable'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['responsable'].errors['required']">
+              Debe ingresar el responsable del control.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Tipo de control -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="tipodecontrol">Tipo de control</label>
+          <select
+            type="text"
+            class="form-select"
+            name="tipodecontrol"
+            id="tipodecontrol"
+            formControlName="idTipoControl"
+            [ngClass]="{
+              'is-invalid': submitted && f['idTipoControl'].errors
+            }"
+          >
+            <option value="">Seleccione</option>
+            <option
+              *ngFor="let tipoControl of tiposControl$ | async"
+              [value]="tipoControl.id"
+            >
+              {{ tipoControl.nombre }}
+            </option>
+          </select>
+          <div
+            *ngIf="submitted && f['idTipoControl'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['idTipoControl'].errors['required']">
+              Debe seleccionar el tipo de control del control.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <!-- Periodicidad -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="periodicidad">Periodicidad</label>
+          <select
+            type="text"
+            class="form-select"
+            name="periodicidad"
+            id="periodicidad"
+            formControlName="idPeriodicidad"
+            [ngClass]="{
+              'is-invalid': submitted && f['idPeriodicidad'].errors
+            }"
+          >
+            <option value="">Seleccione</option>
+            <option
+              *ngFor="let peridicidad of periodicidades$ | async"
+              [value]="peridicidad.id"
+            >
+              {{ peridicidad.nombre }}
+            </option>
+          </select>
+          <div
+            *ngIf="submitted && f['idPeriodicidad'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['idPeriodicidad'].errors['required']">
+              Debe seleccionar la periodicidad del control.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Evidencia -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="evidencia">Evidencia</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="evidencia"
+            name="evidencia"
+            id="evidencia"
+            [ngClass]="{
+              'is-invalid': submitted && f['evidencia'].errors
+            }"
+          />
+          <div
+            *ngIf="submitted && f['evidencia'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['evidencia'].errors['required']">
+              Debe ingresar la evidencia del control.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Indicador -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="indicador">Indicador</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="indicador"
+            name="indicador"
+            id="indicador"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 causas_control">
+      <!-- Lista de causas control -->
+      <h5>Seleccionar causas que mitiga el control</h5>
+      <div class="col-12 casusas_control--list">
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            *ngFor="let causa of causas; let i = index"
+            [backgroundRed]="i < 3"
+          >
+            <input
+              class="form-check-input me-1"
+              type="checkbox"
+              [value]="causa.id"
+              [checked]="causasControl.includes(causa)"
+              (change)="onCausaSelected($event)"
+              id="causa{{ causa.id }}"
+              [ngClass]="{
+                'is-invalid': submitted && f['idCausas'].errors
+              }"
+            />
+            <label
+              class="form-check-label stretched-link"
+              for="causa{{ causa.id }}"
+            >
+              {{ causa.causa }}
+            </label>
+          </li>
+          <div
+            *ngIf="submitted && f['idCausas'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['idCausas'].errors['required']">
+              Debe seleccionar al menos una causa para el control.
+            </div>
+          </div>
+        </ul>
+        <!-- <span *ngIf="causas.length === 0"
+          >No hay causas para agregar a un nuevo control</span
+        > -->
+      </div>
+    </div>
+    <div class="mt-4">
+      <button class="btn btn-dark" (click)="onCancel()">Cancelar</button>
+      <button class="btn btn-primary mx-1" (click)="onSave()">
+        {{ controlSeleccionado ? "Editar control" : "Agregar control" }}
+      </button>
+    </div>
+  </form>
+  <table class="table table-sm mt-4">
+    <thead>
+      <tr>
+        <th>Descripción del control</th>
+        <th>Responsable</th>
+        <th>Tipo de control</th>
+        <th>Periodicidad</th>
+        <th>Evidencia</th>
+        <th>Indicador</th>
+        <th *ngIf="!lock_info">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading; else loaded">
+        <td colspan="7">
+          <app-spinner [type]="'bg'"></app-spinner>
+        </td>
+      </tr>
+      <ng-template #loaded>
+        <tr *ngIf="controles.length === 0 && !loading">
+          <td colspan="7" class="text-center">
+            No hay controles registrados para el riesgo residual
+          </td>
+        </tr>
+        <tr *ngFor="let control of controles">
+          <td>{{ control.nombre }}</td>
+          <td>{{ control.responsable }}</td>
+          <td>{{ control.tipoControl.nombre }}</td>
+          <td>{{ control.periodicidad.nombre }}</td>
+          <td>{{ control.evidencia.evidencia }}</td>
+          <td>{{ control.indicador }}</td>
+          <td *ngIf="!lock_info">
+            <button
+              class="btn btn-primary rounded-circle"
+              (click)="onSeleccionar(control)"
+            >
+              <i class="fas fa-pen fa-sm"></i>
+            </button>
+            <button
+              class="mx-1 btn btn-danger rounded-circle"
+              (click)="onDelete(control.id)"
+            >
+              <i class="fas fa-trash fa-sm"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+  <!-- Fin tabla controles -->
+</div>

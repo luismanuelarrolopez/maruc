@@ -1,0 +1,225 @@
+<div class="card shadow p-0">
+  <div class="card-header py-3">
+    <div class="col">
+      <p class="text-primary m-0 fw-bold">Consecuencias del riesgo</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-spinner [type]="'bg'" *ngIf="loading; else pageLoaded"></app-spinner>
+    <ng-template #pageLoaded>
+      <div *ngIf="!lock_info" class="consecuencia-mayot">
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="mayorConsecuencia" class="form-label"
+                >Consecuencia de mayor impacto</label
+              >
+              <textarea
+                #controlMayorConsecuencia="ngModel"
+                [(ngModel)]="mayorConsecuencia"
+                class="form-control"
+                cols="30"
+                appCharacterCount
+                maxlength="1000"
+                id="mayorConsecuencia"
+                name="mayorConsecuencia"
+                (change)="onMayorConsecuenciaChange()"
+                required
+                rows="5"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="lock_info" class="consecuencia-mayot">
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="mayorConsecuencia">Mayor consecuencia</label>
+              <textarea
+                #controlMayorConsecuencia="ngModel"
+                [(ngModel)]="mayorConsecuencia"
+                class="form-control"
+                cols="30"
+                disabled
+                rows="5"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!lock_info">
+        <h5 class="card-title">Agregar afectaciones</h5>
+        <form [formGroup]="formulario">
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label" for="afectacion"
+                  >Tipo de afectación</label
+                >
+                <select
+                  (change)="onAfectacionSelected($event.target)"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['afectacion'].errors
+                  }"
+                  class="form-select"
+                  formControlName="afectacion"
+                  id="afectacion"
+                >
+                  <option value="">Seleccione un tipo de afectación</option>
+                  <option
+                    *ngFor="let afectacion of afectaciones"
+                    [ngValue]="afectacion.id"
+                  >
+                    {{ afectacion.nombre }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label" for="consecuencia"
+                  >Consecuencia</label
+                >
+                <select
+                  (change)="onConsecuenciaSelected($event.target)"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['consecuencia'].errors
+                  }"
+                  class="form-select"
+                  formControlName="consecuencia"
+                  id="consecuencia"
+                >
+                  <option value="">Seleccione una consecuencia</option>
+                  <option
+                    *ngFor="
+                      let consecuencia of afectacionSeleccionado.consecuencias
+                    "
+                    [ngValue]="consecuencia.id"
+                  >
+                    {{ consecuencia.descripcion }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div
+              *ngIf="consecuenciaSeleccionada?.tipoCampo !== 'seleccion'"
+              class="col-md-4"
+            >
+              <div class="form-group">
+                <label class="form-label" for="puntaje">Puntaje</label>
+                <input
+                  [value]="consecuenciaSeleccionada?.opciones[0]?.puntaje"
+                  class="form-control"
+                  formControlName="puntaje"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div
+              *ngIf="consecuenciaSeleccionada?.tipoCampo === 'seleccion'"
+              class="col-md-4"
+            >
+              <div class="form-group">
+                <label class="form-label" for="opcion">Opción</label>
+                <select
+                  (change)="onOpcionSelected($event.target)"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['consecuencia'].errors
+                  }"
+                  class="form-select"
+                  formControlName="opcion"
+                  id="opcion"
+                >
+                  <option value="">Seleccione una opción</option>
+                  <option
+                    *ngFor="let opcion of consecuenciaSeleccionada.opciones"
+                    [ngValue]="opcion.id"
+                  >
+                    {{ opcion.descripcion }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div
+              *ngIf="consecuenciaSeleccionada?.tipoCampo === 'seleccion'"
+              class="col-md-4"
+            >
+              <div class="form-group">
+                <label class="form-label" for="puntaje">Puntaje</label>
+                <input
+                  [value]="opcionSeleccionada.puntaje"
+                  class="form-control"
+                  formControlName="puntaje"
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button (click)="onCancel()" class="btn btn-dark m-1">
+              Cancelar
+            </button>
+            <button (click)="onSave()" class="btn btn-primary">
+              Agregar consecuencia
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="mt-4">
+        <app-spinner
+          [type]="'bg'"
+          *ngIf="loadingData$ | async; else dataLoaded"
+        ></app-spinner>
+        <ng-template #dataLoaded>
+          <div
+            *ngFor="let item of mapaConsecuencias | keyvalue"
+            class="lista-consecuencias"
+          >
+            <h6 class="tipo-afectacion__title m-0">{{ item.key }}</h6>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Consecuencia</th>
+                  <th>Puntaje</th>
+                  <th *ngIf="!lock_info">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let listItem of item.value">
+                  <td>{{ listItem.consecuencia }}</td>
+                  <td>{{ listItem.puntaje }}</td>
+                  <td *ngIf="!lock_info">
+                    <button
+                      (click)="onDelete(listItem.id)"
+                      class="btn btn-danger rounded-circle"
+                    >
+                      <i class="fas fa-sm fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="lista-consecuencias__puntaje-total">
+                  <td>Puntaje {{ item.key }}</td>
+                  <td>
+                    {{ getPuntajeTotal(item.key) }}
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </div>
+      <div *ngIf="!lock_info" class="d-flex justify-content-end mt-4">
+        <button (click)="onNext()" class="btn btn-primary m-1" type="button">
+          Siguiente
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

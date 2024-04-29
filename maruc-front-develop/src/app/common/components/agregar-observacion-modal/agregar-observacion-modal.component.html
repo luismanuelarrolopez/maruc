@@ -1,0 +1,38 @@
+<div class="text-end">
+    <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar observación" (click)="open(modal_agregar)">Agregar observación <fa-icon [icon]="plusIcon"></fa-icon></button>
+</div>
+<!--- Modal Ver Soporte -->
+<ng-template class="modal fade bd-example-modal-lg" #modal_agregar let-modal_agregar>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Agregar observación</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal_agregar.dismiss()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-column justify-content-center">
+                <div class="row">
+                    <p class="text-danger m-0"><b class="text-secondary">Observación</b>*</p>
+                </div>
+                <textarea class="md-light form-control" rows="4"  type="text" [(ngModel)]="observacion_model.observacion" name="nombre" required minlength="4" maxlength="500" #observacion_m="ngModel"></textarea>
+                <div class="row">
+                    <div class="col">
+                        <p [ngClass]="observacion_model.observacion.length == 500? 'text-danger':''">{{observacion_model.observacion.length}}/500</p>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="observacion_model.corregida">
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Agregar observación como corregida
+                    </label>
+                </div>
+            </div>
+            <div class="row ml-2">
+                <small> Los campos marcados con (<b class="text-danger">*</b>) son obligatorios</small >
+            </div>
+            <div *ngIf="observacion_model.observacion !=''" class="col-auto d-flex flex-column justify-content-center mt-2">
+                    <button class="btn btn-primary btn-sm" type="button" (click)='_AgregarObservacion()'>
+                        Guardar
+                        <fa-icon [icon]="saveicon"></fa-icon>
+                    </button>
+            </div>
+        </div>
+</ng-template>   

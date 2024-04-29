@@ -1,0 +1,203 @@
+<h3 class="text-primary mb-2">Perfil</h3>
+<div class="row p-0">
+  <div class="col-md-6 col-sm-12">
+    <div class="card shadow p-0">
+      <div class="card-header py-3">
+        <div class="col">
+          <p class="text-primary m-0 fw-bold">Información personal</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <app-spinner
+          [type]="'bg'"
+          *ngIf="loading; else pageLoaded"
+        ></app-spinner>
+        <ng-template #pageLoaded>
+          <form [formGroup]="form">
+            <div class="row mt-2">
+              <!-- Email -->
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email" class="form-label"
+                    >Correo electrónico</label
+                  >
+                  <input
+                    type="email"
+                    formControlName="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                  />
+                </div>
+              </div>
+              <!-- Primer nombre -->
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="pnombre" class="form-label">Primer nombre</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="pnombre"
+                    id="pnombre"
+                    formControlName="primerNombre"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['primerNombre'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['primerNombre'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['primerNombre'].errors['required']">
+                      Debe ingresar el primer nombre.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Segundo nombre -->
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="snombre" class="form-label">Segundo nombre</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="snombre"
+                    formControlName="segundoNombre"
+                    id="snombre"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <!-- Primer apellido -->
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="papellido" class="form-label"
+                    >Primer apellido</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="papellido"
+                    id="papellido"
+                    formControlName="primerApellido"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['primerApellido'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['primerApellido'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['primerApellido'].errors['required']">
+                      Debe ingresar el primer apellido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Segundo apellido -->
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sapellido" class="form-label"
+                    >Segundo apellido</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="sapellido"
+                    formControlName="segundoApellido"
+                    id="sapellido"
+                  />
+                </div>
+              </div>
+              <!-- Password -->
+              <!--
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="password"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid': submitted && f['password'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && f['password'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['password'].errors['required']">
+                  Debe ingresar una contraseña.
+                </div>
+                <div *ngIf="f['password'].errors['minlength']">
+                  La contraseña debe contener 8 o más caracteres
+                </div>
+                <div *ngIf="f['password'].errors['hasNumber']">
+                  La contraseña debe tener al menos un número
+                </div>
+                <div *ngIf="f['password'].errors['hasCapitalCase']">
+                  La contraseña debe tener al menos un caracter en mayúscula
+                </div>
+                <div *ngIf="f['password'].errors['hasSmallCase']">
+                  La contraseña debe tener al menos un caracter en minúscula
+                </div>
+                <div *ngIf="f['password'].errors['hasSpecialCharacters']">
+                  La contraseña debe tener al menos un caracter especial
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+              <!-- <div class="row mt-4">
+           Confirmar Password
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label for="confirmPassword">Confirmar contraseña</label>
+              <input
+                type="password"
+                class="form-control"
+                name="confirmPassword"
+                formControlName="confirmPassword"
+                id="confirmPassword"
+                [ngClass]="{
+                  'is-invalid': submitted && f['confirmPassword'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && f['confirmPassword'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['confirmPassword'].errors['required']">
+                  Debe ingresar una contraseña.
+                </div>
+                <div *ngIf="f['confirmPassword'].errors['mismatch']">
+                  Las contraseñas deben coincidir
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button class="btn btn-dark" (click)="onCancel()">
+                Cancelar
+              </button>
+              <button class="btn btn-primary mx-1" (click)="onSave()">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <div>
+      <maruc-change-password></maruc-change-password>
+    </div>
+  </div>
+</div>

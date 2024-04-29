@@ -1,0 +1,75 @@
+<div class="table-responsive mt-3">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nombres</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Email</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading; else dataLoaded">
+        <td colspan="5">
+          <app-spinner [type]="'bg'"></app-spinner>
+        </td>
+      </tr>
+      <ng-template #dataLoaded>
+        <tr *ngIf="usuarios.length === 0">
+          <td colspan="5" class="text-center">No hay usuarios registrados.</td>
+        </tr>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.nombres }}</td>
+          <td>{{ usuario.apellidos }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>
+            <button
+              class="btn btn-primary rounded-circle mx-1"
+              (click)="onEditar(usuario.id)"
+            >
+              <i class="fas fa-pen"></i>
+            </button>
+            <button
+              class="btn btn-danger rounded-circle mx-1"
+              (click)="onEliminar(usuario.id)"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between p-2 align-items-center">
+    <ngb-pagination
+      [collectionSize]="totalElements"
+      [(page)]="page"
+      [pageSize]="size"
+      (pageChange)="fetchUsuarios()"
+    >
+    </ngb-pagination>
+
+    <div class="d-flex flex-row align-items-center justify-content-center">
+      <div class="d-flex flex-col align-items-center ml-3">
+        <p class="m-0 me-2">
+          Elementos encontrados: <b>{{ totalElements }}</b>
+        </p>
+      </div>
+      <div class="d-flex flex-col align-items-center">
+        <p class="m-0 me-2">Elementos por página:</p>
+      </div>
+      <div class="col-auto">
+        <select
+          class="form-select"
+          style="width: auto"
+          [(ngModel)]="size"
+          (ngModelChange)="fetchUsuarios()"
+        >
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

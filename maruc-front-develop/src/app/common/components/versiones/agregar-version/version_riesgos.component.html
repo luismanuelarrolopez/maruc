@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary btn-sm ml-2" data-toggle="modal"
+                data-target="#modal_agregar_soporte" (click)="open(modal_agregar)">
+                Agregar versión <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <!--- Modal Ver Soporte -->
+    <ng-template #modal_agregar let-modalAgregar>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Agregar versión</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modalAgregar.dismiss()"></button>
+        </div>
+        <div class="modal-body">
+            <form #SoporteEvidenciaForm="ngForm">
+                <div *ngIf="progreso > 0" class="col-12 text-center">
+                    <div class="row">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: progreso+'%'}"
+                                attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">{{progreso}}%
+                            </div>
+                        </div>
+                        <p>Cargando versión...</p>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <p class="text-danger m-0"><b class="text-secondary">Nombre versión</b>*</p>
+                    <input class="md-light form-control" type="text" [(ngModel)]="version_riesgo.nombre" name="nombre"
+                        required="El campo es requerido" minlength="4" #nombre="ngModel" />
+                    <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                        <div *ngIf="nombre.errors?.['required']">
+                            El nombre es requerido
+                        </div>
+                        <div *ngIf="nombre.errors?.['minlength']">
+                            El nombre debe tener por lo menos 4 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <p class="text-danger m-0 mt-2"><b class="text-secondary">Archivo versión</b>*</p>
+                    <input (change)="onFileSelected($event)" class="form-control" type="file"
+                        [(ngModel)]="version_riesgo.ruta_version" name="ruta_version" required #soporte="ngModel">
+                    <div class="alert alert-danger" *ngIf="soporte.invalid && (soporte.dirty || soporte.touched)">
+                        <div *ngIf="soporte.errors?.['required']">
+                            El archivo es requerido
+                        </div>
+                    </div>
+                </div>
+                <!--Add small pargraph that indicates the inputs with * are requires-->
+                <div class="row ml-2">
+                    <small> Los campos marcados con (<b class="text-danger">*</b>) son obligatorios</small>
+                </div>
+                <app-spinner [type]="'sm'" *ngIf="loading; else loaded"></app-spinner>
+                <ng-template #loaded>
+                    <div class="row m-1">
+                        <button class="btn btn-primary btn-sm mt-3" type="button"
+                            [disabled]="!SoporteEvidenciaForm.form.valid" (click)='AgregarVersionRiesgo()'>
+                            Guardar versión
+                            <fa-icon [icon]="saveicon"></fa-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </form>
+        </div>
+    </ng-template>
+</div>

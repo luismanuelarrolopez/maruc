@@ -1,0 +1,56 @@
+<div class="table-responsive mt-3">
+    <table class="table table-bordered table-striped" id="dataTable" *ngIf="riesgos.length != 0? true : false">
+        <thead>
+            <tr>
+                <th>Riesgo</th>
+                <th>Proceso</th>
+                <th>Tipo de riesgo</th>
+                <th>Riesgo inherente</th>
+                <th>Riesgo residual</th>
+                <th>Tratamiendo</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let riesgo of riesgos">
+                <td>{{riesgo?.riesgo?.nombre}}<br /></td>
+                <td>{{riesgo?.riesgo?.tipoProceso?.nombre}}<br /></td>
+                <td>{{riesgo?.riesgo?.tipoRiesgo?.nombre}}<br /></td>
+                <td>
+                    <div>
+                        <p *ngIf="riesgo.riesgo_inherente?.valoracion > 0 && riesgo.riesgo_inherente?.valoracion <= 3">
+                            Bajo <i class="fa fa-circle" style="color: lawngreen;"></i></p>
+                        <p *ngIf="riesgo.riesgo_inherente?.valoracion > 3 && riesgo.riesgo_inherente?.valoracion <= 9">
+                            Medio <i class="fa fa-circle" style="color: yellow;"></i></p>
+                        <p *ngIf="riesgo.riesgo_inherente?.valoracion > 9 && riesgo.riesgo_inherente?.valoracion <= 24">
+                            Alto <i class="fa fa-circle" style="color: orange;"></i></p>
+                        <p
+                            *ngIf="riesgo.riesgo_inherente?.valoracion > 24 && riesgo.riesgo_inherente?.valoracion <= 100">
+                            Extremo <i class="fa fa-circle" style="color: red;"></i></p>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <p *ngIf="riesgo.riesgo_residual?.nivel === 'Bajo'">Bajo <i class="fa fa-circle"
+                                style="color: lawngreen;"></i></p>
+                        <p *ngIf="riesgo.riesgo_residual?.nivel === 'Medio'">Medio <i class="fa fa-circle"
+                                style="color: yellow;"></i></p>
+                        <p *ngIf="riesgo.riesgo_residual?.nivel === 'Alto'">Alto <i class="fa fa-circle"
+                                style="color: orange;"></i></p>
+                        <p *ngIf="riesgo.riesgo_residual?.nivel === 'Extremo'">Extremo <i class="fa fa-circle"
+                                style="color: red;"></i></p>
+                    </div>
+                </td>
+                <td>{{riesgo?.riesgo?.tipoTratamiento?.nombre}}<br /></td>
+                <td>
+                    <div *ngIf="riesgo.riesgo.controles.length > 0" class="col-lg-11"><button
+                            class="btn btn-primary btn-sm" type="button"
+                            [routerLink]="['controles/'+riesgo.riesgo.id]">Controles</button></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="riesgos.length==0" class="alert alert-info">
+        No hay registros en la base de datos
+    </div>
+</div>

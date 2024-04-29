@@ -1,0 +1,91 @@
+<div class="table-responsive mt-3">
+    <table class="table table-bordered table-striped" id="dataTable" *ngIf="riesgos.length != 0? true : false">
+        <thead>
+            <tr>
+                <th>Riesgo</th>
+                <th>Proceso</th>
+                <th>Cumplimiento</th>
+                <th>Metodología</th>
+                <th>Controles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let riesgo of riesgos">
+                <td>{{riesgo.riesgo.nombre}}<br /></td>
+                <td>{{riesgo.riesgo.tipoProceso?.nombre}}<br /></td>
+                <td>{{riesgo.cumplimiento? "Si" : "No"}}<br /></td>
+                <td>
+                    <div class="row">
+                        <div *ngIf="riesgo.riesgo.estatusInformacionRiesgo?.valor >= 7">
+                            <button *hasRole="'OPDI'" class="btn btn-primary btn-sm" [title]="!riesgo.cumplimiento_observaciones_riesgo ? 'El riesgo tiene observaciones sin corregir' : ''" type="button"
+                                [routerLink]="['redaccion/'+riesgo.riesgo.id]">
+                                <div *ngIf="!riesgo.cumplimiento_observaciones_riesgo else oncum" class="row">
+                                    <div class="col-lg-9 pe-0">
+                                        Monitorear
+                                    </div>
+                                    <div class="col-lg-1 ps-0">
+                                        <span class="badge text-warning"><fa-icon [icon]="exclamationIcon" colo></fa-icon></span>
+                                    </div>
+                                </div> 
+                                <ng-template #oncum>
+                                    Monitorear
+                                </ng-template>
+                            </button>
+                            <button *hasRole="'OCI'" class="btn btn-primary btn-sm" [title]="!riesgo.cumplimiento_observaciones_riesgo ? 'El riesgo tiene observaciones sin corregir' : ''"  type="button"
+                                [routerLink]="['redaccion/'+riesgo.riesgo.id]">
+                                <div *ngIf="!riesgo.cumplimiento_observaciones_riesgo else oncum" class="row">
+                                    <div class="col-lg-9 pe-0">
+                                        Evaluar
+                                    </div>
+                                    <div class="col-lg-1 ps-0">
+                                        <span class="badge text-warning"><fa-icon [icon]="exclamationIcon" colo></fa-icon></span>
+                                    </div>
+                                </div> 
+                                <ng-template #oncum>
+                                    Evaluar
+                                </ng-template></button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="riesgo.riesgo.estatusInformacionRiesgo?.valor >= 7">
+                        <button *hasRole="'OPDI'" class="btn btn-primary btn-sm" [title]="!riesgo.cumplimiento_observaciones_evidencia ? 'El riesgo tiene evidencias con observaciones sin corregir' : '' " type="button"
+                            [routerLink]="['controles/'+riesgo.riesgo.id]">
+                            <div *ngIf="!riesgo.cumplimiento_observaciones_evidencia else oncum" class="row">
+                                <div class="col-lg-9 pe-0">
+                                    Monitorear
+                                </div>
+                                <div class="col-lg-1 ps-0">
+                                    <span class="badge text-warning"><fa-icon title="El riesgo tiene observaciones sin corregir" [icon]="exclamationIcon" colo></fa-icon></span>
+                                </div>
+                            </div> 
+                            <ng-template #oncum>
+                                Monitorear
+                            </ng-template>
+                        </button>
+                        <button *hasRole="'OCI'" class="btn btn-primary btn-sm" [title]="!riesgo.cumplimiento_observaciones_evidencia ? 'El riesgo tiene evidencias con observaciones sin corregir' : '' " type="button"
+                            [routerLink]="['controles/'+riesgo.riesgo.id]">
+                            <div *ngIf="!riesgo.cumplimiento_observaciones_evidencia else oncum" class="row">
+                                <div class="col-lg-9 pe-0">
+                                    Evaluar
+                                </div>
+                                <div class="col-lg-1 ps-0">
+                                    <span class="badge text-warning"><fa-icon [icon]="exclamationIcon" colo></fa-icon></span>
+                                </div>
+                            </div> 
+                            <ng-template #oncum>
+                                Evaluar
+                            </ng-template>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr></tr>
+        </tfoot>
+    </table>
+    <div *ngIf="riesgos.length==0" class="alert alert-info">
+        No hay registros en la base de datos
+    </div>
+</div>

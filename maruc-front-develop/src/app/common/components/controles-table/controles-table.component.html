@@ -1,0 +1,79 @@
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary mb-0">Controles del riesgo</h3>
+    </div>
+    <div class="row">
+        <div class="col">
+
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <p class="text-primary m-0 fw-bold">Riesgo: {{riesgo.riesgo.nombre}}<br /></p>
+                </div>
+                <div class="card-body">
+                    <div id="dataTable-1" class="table-responsive table mt-2" role="grid"
+                        aria-describedby="dataTable_info">
+                        <table class="table table-bordered table-striped" id="dataTable"
+                            *ngIf="riesgo?.riesgo?.controles?.length != 0? true : false">
+                            <thead>
+                                <tr>
+                                    <th>Causa / Vulnerabilidad</th>
+                                    <th>Control</th>
+                                    <th>Responsables</th>
+                                    <th>Periodicidad</th>
+                                    <th>Tipo de Control</th>
+                                    <th>Evidencia</th>
+                                    <th *ngIf="options">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let control of riesgo.controles">
+                                    <td>
+                                        <div class="m-0 p-0" *ngFor="let causa of control.causas">
+                                            <p class="text-justify pb-0">{{causa.causa}}</p><br />
+                                        </div></td>
+                                    <td>{{control?.nombre}}<br /></td>
+                                    <td>{{control?.responsable}}<br /></td>
+                                    <td>{{control?.periodicidad?.nombre}}<br /></td>
+                                    <td>{{control?.tipoControl?.nombre}}<br /></td>
+                                    <td>{{control?.evidencia != null ? control?.evidencia.evidencia : "Sin evidencia asociada"}}<br /></td>
+                                    <td *ngIf="options">
+                                        <div class="row">
+                                            <div *ngIf="control?.evidencia != null else noEvidencia" class="col-lg-11">
+                                                <div>
+                                                    <!-- <button class="btn btn-primary btn-sm" [title]="!control?.cumplimiento_observaciones_evidencia ? 'La evidencia tiene observaciones sin corregir' : ''" type="button"
+                                                    [routerLink]="['evidencias/'+control.evidencia.id]">
+                                                    <div *ngIf="!control.cumplimiento_observaciones_evidencia else oncum" class="row">
+                                                        <div class="col-lg-9 pe-0">
+                                                            Soportes
+                                                        </div>
+                                                        <div class="col-lg-1 ps-0">
+                                                            <span class="badge text-warning"><fa-icon [icon]="exclamationIcon" colo></fa-icon></span>
+                                                        </div>
+                                                    </div> 
+                                                    <ng-template #oncum>
+                                                        Soportes
+                                                    </ng-template>
+                                                </button> -->
+                                                <button class="btn btn-primary btn-sm" type="button"
+                                                    [routerLink]="['evidencias/'+control.evidencia.id]">
+                                                                                                            Soportes
+                                                </button>
+                                                </div>
+                                            </div>
+                                            <ng-template #noEvidencia>
+                                                <p class="m-0">Sin evidencia Asociada</p>
+                                            </ng-template>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="riesgo.riesgo.controles.length==0 " class="alert alert-info">
+                            No existen controles registrados
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

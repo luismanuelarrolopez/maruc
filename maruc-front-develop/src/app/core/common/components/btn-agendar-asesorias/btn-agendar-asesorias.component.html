@@ -1,0 +1,8 @@
+<div class="agendar-asesorias d-flex justify-content-end">
+    <ng-template let-modal #modalNuevaAsesoria>
+        <app-dialogo-asesorias (onClose)="modal.dismiss()"></app-dialogo-asesorias>
+      </ng-template>
+    <button class="agendar-asesorias__boton btn btn-primary btn-sm" (click)="abrirDialogo(modalNuevaAsesoria)">
+        <i class="agendar-asesorias__icon fas fa-edit"></i> Agendar asesoria
+    </button>
+</div>

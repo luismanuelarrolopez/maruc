@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <form #EditarSoporteEvidenciaForm="ngForm">        
+                <div class="row" style="display: flex;flex-direction: column;">
+                    <label class="form-label"><b>Nombre</b></label>
+                    <input class="md-light form-control" type="text" [(ngModel)]="soporte_evidencia.nombre" name="nombre" required minlength="4" #nombre="ngModel"/>
+                    <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                        <div *ngIf="nombre.errors">
+                            El nombre es requerido
+                        </div>
+                        <!--div *ngIf="nombre.errors?.minlength">
+                            El nombre debe tener al menos 4 caracteres
+                        -->
+                    </div>
+                </div>      
+                <div class="row">
+                    <label class="form-label"><b>Soporte</b></label>
+                    <p>{{soporte_evidencia.ruta_soporte.slice(37, soporte_evidencia.ruta_soporte.length)}}</p>
+                </div>
+                <div class="row" style="display: flex">
+                    <label class="form-label"><b>Fecha de carga</b></label>
+                    <p>{{convertTimeToString(soporte_evidencia.fechaCreacion)}}</p>
+                </div>
+                <div class="row" style="display: flex;flex-direction: column;">
+                    <button class="btn btn-primary btn-sm" type="button" [disabled]="!EditarSoporteEvidenciaForm.form.valid" (click)='editarSoporteEvidencia()'>
+                        Actualizar
+                        <fa-icon [icon]="saveicon"></fa-icon>
+                    </button>
+                </div>
+    </form>
+</div>

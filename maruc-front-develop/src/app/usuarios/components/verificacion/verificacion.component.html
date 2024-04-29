@@ -1,0 +1,91 @@
+<div class="center">
+  <div class="card shadow-lg o-hidden border-0 my-5">
+    <div class="card-body p-0">
+      <div class="row">
+        <div class="col-lg-6 d-none d-lg-flex">
+          <div
+            class="flex-grow-1 bg-login-image"
+            style="background-image: url('/assets/img/dogs/image3.jpeg')"
+          ></div>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-5">
+            <div class="text-center">
+              <h4 class="text-dark mb-4">Verificar cuenta!</h4>
+            </div>
+            <form class="user" [formGroup]="formularioLogin">
+              <div class="mb-3">
+                <input
+                  class="form-control form-control-user"
+                  type="password"
+                  formControlName="password"
+                  id="exampleInputEmail"
+                  aria-describedby="emailHelp"
+                  placeholder="Password"
+                  name="email"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['password'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['password'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['password'].errors['required']">
+                    Debe ingresar una contraseña.
+                  </div>
+                  <div *ngIf="f['password'].errors['minlength']">
+                    La contraseña debe contener 8 o más caracteres
+                  </div>
+                  <div *ngIf="f['password'].errors['hasNumber']">
+                    La contraseña debe tener al menos un número
+                  </div>
+                  <div *ngIf="f['password'].errors['hasCapitalCase']">
+                    La contraseña debe tener al menos un caracter en mayúscula
+                  </div>
+                  <div *ngIf="f['password'].errors['hasSmallCase']">
+                    La contraseña debe tener al menos un caracter en minúscula
+                  </div>
+                  <div *ngIf="f['password'].errors['hasSpecialCharacters']">
+                    La contraseña debe tener al menos un caracter especial
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <input
+                  class="form-control form-control-user"
+                  type="password"
+                  formControlName="confirmPassword"
+                  id="exampleInputPassword"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['confirmPassword'].errors
+                  }"
+                  placeholder="Confirme su password"
+                  name="password"
+                />
+                <div
+                  *ngIf="submitted && f['confirmPassword'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['confirmPassword'].errors['required']">
+                    Debe ingresar una contraseña.
+                  </div>
+                  <div *ngIf="f['confirmPassword'].errors['mismatch']">
+                    Las contraseñas deben coincidir
+                  </div>
+                </div>
+              </div>
+              <button
+                class="btn btn-primary d-block btn-user w-100"
+                type="submit"
+                (click)="doVerificar()"
+              >
+                Verificar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

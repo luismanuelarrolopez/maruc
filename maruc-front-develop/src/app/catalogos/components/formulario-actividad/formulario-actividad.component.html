@@ -1,0 +1,46 @@
+<form [formGroup]="actividadForm" (ngSubmit)="onSubmit()">
+  <fieldset></fieldset>
+  <fieldset style="margin-top: 12px">
+    <div class="row" style="margin-top: 12px">
+      <div class="col">
+        <label class="form-label" for="txtNombre">Nombre actividad</label>
+        <input
+          id="txtNombre"
+          class="form-control"
+          type="text"
+          formControlName="nombre"
+          [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }"
+        />
+        <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+          <div *ngIf="f['nombre'].errors['required']">
+            El nombre de la actividad es requerido
+          </div>
+          <div *ngIf="f['nombre'].errors['minlength']">
+            El nombre de la actividad debe tener más de 10 caracteres
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 12px">
+      <div class="col">
+        <label class="form-label" for="chkFrencuencia"
+          >Invertir frecuencia</label
+        >
+        <input
+          id="chkFrencuencia"
+          formControlName="frecuenciaInvertida"
+          class="d-flex d-xxl-flex justify-content-center align-items-center align-content-center justify-content-xxl-center"
+          type="checkbox"
+        />
+      </div>
+      <div class="col"></div>
+    </div>
+    <!--
+    <div style="margin-top: 18px;" class="d-flex align-items-end flex-column">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-save"></i>&nbsp;Guardar
+      </button>
+    </div>
+    -->
+  </fieldset>
+</form>

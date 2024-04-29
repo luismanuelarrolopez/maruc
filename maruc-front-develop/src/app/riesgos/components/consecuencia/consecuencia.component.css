@@ -1,0 +1,11 @@
+.tipo-afectacion__title {
+  background-color: #dce3f9;
+  padding: 10px;
+  color: #000;
+  font-weight: bold;
+}
+
+.lista-consecuencias__puntaje-total {
+    background-color: #d0d0d3;
+    color: #000;
+}

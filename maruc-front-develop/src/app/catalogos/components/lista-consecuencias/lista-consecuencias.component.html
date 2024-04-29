@@ -1,0 +1,66 @@
+<div class="table-responsive mt-3">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Afectación</th>
+        <th>Consecuencia</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="!loading">
+      <tr *ngFor="let consecuencia of listaConsecuencias">
+        <td>{{ consecuencia.tipoAfectacion?.nombre }}</td>
+        <td>{{ consecuencia.descripcion }}</td>
+        <td>
+          <!-- <button class="btn btn-primary mx-1 rounded-circle">
+          <i class="fas fa-pen"></i>
+        </button> -->
+          <button
+            class="btn btn-primary mx-1 rounded-circle"
+            (click)="onEditar(consecuencia.id!)"
+          >
+            <i class="fas fa-pen"></i>
+          </button>
+          <button
+            class="btn btn-danger mx-1 rounded-circle"
+            (click)="onEliminar(consecuencia.id!)"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-spinner [type]="'bg'" *ngIf="loading"></app-spinner>
+  <div class="d-flex justify-content-between p-2 align-items-center">
+    <ngb-pagination
+      [collectionSize]="totalElements"
+      [(page)]="page"
+      [pageSize]="size"
+      (pageChange)="fetchConsecuencias()"
+    >
+    </ngb-pagination>
+    <div class="d-flex flex-row align-items-center justify-content-center">
+      <div class="d-flex flex-col align-items-center ml-3">
+        <p class="m-0 me-2">
+          Elementos encontrados: <b>{{ totalElements }}</b>
+        </p>
+      </div>
+      <div class="d-flex flex-col align-items-center">
+        <p class="m-0 me-2">Elementos por página:</p>
+      </div>
+      <div class="col-auto">
+        <select
+          class="form-select"
+          style="width: auto"
+          [(ngModel)]="size"
+          (ngModelChange)="fetchConsecuencias()"
+        >
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

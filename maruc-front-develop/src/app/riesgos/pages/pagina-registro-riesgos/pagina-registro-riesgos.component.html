@@ -1,0 +1,109 @@
+<div class="mb-4 mx-4">
+  <app-spinner [type]="'bg'" *ngIf="loading; else loaded"></app-spinner>
+  <ng-template #loaded>
+    <h3 class="text-primary mb-2">
+      {{
+        metodologia_mode
+          ? "Monitorear metodología del riesgo"
+          : "Registrar nuevo riesgo"
+      }}
+    </h3>
+    <div class="d-flex flex-row align-items-center pb-1">
+      <div class="col">
+        <p *ngIf="metodologia_mode" class="text-primary m-0 fw-bold">
+          Riesgo:
+          {{ riesgo?.riesgo != null ? riesgo.riesgo.nombre : riesgo_name }}
+        </p>
+      </div>
+      <div class="d-flex col col-2 justify-content-end p-2">
+        <div>
+          <button
+          *ngIf="metodologia_mode"
+          class="btn btn-primary btn-sm"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseExample"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+        <i class="fas fa-file-signature"></i>
+          Desplegar observaciones
+        </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="metodologia_mode" class="mb-2">
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <app-observacion-riesgo
+            [id_riesgo]="idRiesgo"
+            [observacion_mode]="observacion_mode"
+            [tipo_actor]="role"
+          ></app-observacion-riesgo>
+        </div>
+      </div>
+    </div>
+    <ul #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs" ngbNav>
+      <li [ngbNavItem]="1" class="nav-item">
+        <a [ngClass]="{ active: active === 1 }" class="nav-link" ngbNavLink
+          >Descripción del riesgo</a
+        >
+        <ng-template ngbNavContent>
+          <app-informacion-basica
+            (onLoadConsecuenciaRiesgo)="onMayorConsecuenciaChange($event)"
+            (riesgoCreated)="onRiesgoCreated($event)"
+            [lock_info]="lock_info"
+          ></app-informacion-basica>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" class="nav-item" [disabled]="maxTabEnabled < 2">
+        <a [ngClass]="{ active: active === 2 }" ngbNavLink>Causas</a>
+        <ng-template ngbNavContent>
+          <app-causas [lock_info]="lock_info"></app-causas>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" class="nav-item" [disabled]="maxTabEnabled < 3">
+        <a [ngClass]="{ active: active === 3 }" ngbNavLink>Consecuencias</a>
+        <ng-template ngbNavContent>
+          <app-consecuencia
+            [mayorConsecuencia]="mayorConsecuencia"
+            (consecuenciaChange)="onMayorConsecuenciaChange($event)"
+            [lock_info]="lock_info"
+          ></app-consecuencia>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="4" class="nav-item" [disabled]="maxTabEnabled < 4">
+        <a [ngClass]="{ active: active === 4 }" ngbNavLink>Probabilidad</a>
+        <ng-template ngbNavContent>
+          <app-probabilidad
+            (onNivelProbabilidadChange)="onNivelProbabilidadChange($event)"
+            [lock_info]="lock_info"
+          ></app-probabilidad>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="5" class="nav-item" [disabled]="maxTabEnabled < 5">
+        <a [ngClass]="{ active: active === 5 }" ngbNavLink>Riesgo inherente</a>
+        <ng-template ngbNavContent>
+          <app-riesgo-inherente [lock_info]="lock_info"></app-riesgo-inherente>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="6" class="nav-item" [disabled]="maxTabEnabled < 6">
+        <a [ngClass]="{ active: active === 6 }" ngbNavLink>Valoración</a>
+        <ng-template ngbNavContent>
+          <app-valoracion [lock_info]="lock_info"></app-valoracion>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="7" class="nav-item" [disabled]="maxTabEnabled < 7">
+        <a [ngClass]="{ active: active === 7 }" ngbNavLink>Riesgo residual</a>
+        <ng-template ngbNavContent>
+          <app-riesgo-residual [lock_info]="lock_info"></app-riesgo-residual>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </ng-template>
+</div>

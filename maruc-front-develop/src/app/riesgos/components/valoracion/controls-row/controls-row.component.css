@@ -1,0 +1,16 @@
+.table-line {
+  display: contents;
+}
+
+td, th {
+  min-width: 200px;
+  text-align: center;
+}
+
+th:first-child, td:first-child {
+  position: sticky;
+  background-color: #3d8bfd;
+  color: #f9fafc;
+  border-color: white;
+  left: 0px;
+}
