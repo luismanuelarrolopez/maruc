@@ -1,0 +1,26 @@
+version: "3"
+services:  
+  maruc_backend:
+    build:
+      context: maruc-back/
+      dockerfile: Dockerfile
+    container_name: maruc_backend
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - maruc_network
+
+  maruc_frontend:
+    build:
+      context: maruc-front/
+      dockerfile: Dockerfile
+    container_name: maruc_frontend
+    ports:
+      - "4200:80"
+    restart: unless-stopped
+    depends_on:
+      - maruc_backend
+
+networks:
+  maruc_network:
